@@ -2,6 +2,6 @@
 
 public interface IWonderfulCaptchaService
 {
-    Task<string> GenerateCaptchaAsync();
+    Task<string> GenerateCaptchaAsync(CancellationToken cancellationToken);
 }
 
