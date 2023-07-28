@@ -3,7 +3,7 @@
 namespace Core.Implementations;
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
-    public async Task<string> GenerateCaptchaAsync(CancellationToken cancellationToken)
+    public async Task<string> GenerateCaptchaAsync(CancellationToken cancellationToken = default!)
         => "iVBORw0KGgoAAAANSUhEUgAAAJYAAAAyCAYAAAC+jCIaAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcE" +
         "hZcwAADsMAAA7DAcdvqGQAAANOSURBVHhe7ZaBkdwwCEW3l3SRIlJDSkgJ6TxZZqPogwHJsnTWeP6bYe52BfiDkLwvQgghhB" +
         "BCCCGEEEIIIYRsxp/Xr7f9/mff39biG/iLSbzkydHP+fnfX3/fa7nOsZzWdE176NSaPHTOnv1chBYiQ5NzbEYdkhgpsPhLfGmQH" +
