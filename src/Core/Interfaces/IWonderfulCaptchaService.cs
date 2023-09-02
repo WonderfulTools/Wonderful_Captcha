@@ -3,19 +3,19 @@
 namespace Core.Interfaces;
 
 
-public interface ICaptchaPerBuilder
+public interface ICaptchaBuilder
 {
-    ICaptchaBuilder WithStrategy(StrategyEnum strategy, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithStrategy(StrategyEnum strategy, CancellationToken cancellationToken = default);
 
 }
-public interface ICaptchaBuilder : ICaptchaPerBuilder
+public interface IOptionalCaptchaBuilder : ICaptchaBuilder
 {
-    ICaptchaBuilder WithComplexity(StrategyEnum complexity, CancellationToken cancellationToken = default);
-    ICaptchaBuilder WithSize(int height = 10, int width = 20, CancellationToken cancellationToken = default);
-    ICaptchaBuilder WithCaptchaText(string text, CancellationToken cancellationToken = default);
-}
-public interface ICaptchaFinisher
-{
+    IOptionalCaptchaBuilder WithComplexity(StrategyEnum complexity, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithSize(int height = 10, int width = 20, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithCaptchaText(string text, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithLen(int len, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithColor(string text, CancellationToken cancellationToken = default);
+    IOptionalCaptchaBuilder WithBackGroundColor(string text, CancellationToken cancellationToken = default);
     object Generate();
     object GenerateAsync();
 }
