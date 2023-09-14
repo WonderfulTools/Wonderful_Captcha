@@ -4,6 +4,7 @@ public class CaptchaOptions
     public string Text { get; set; } = default!;
     public (int height, int width) Size { get; set; } = (10, 20);
     public Type? StrategyProvider { get; set; }
+    public Type? CacheProvider { get; set; }
 
     public CaptchaOptions WithDigitStrategy()
     {

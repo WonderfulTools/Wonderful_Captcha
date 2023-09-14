@@ -1,40 +1,73 @@
-﻿using Core.Enums;
+﻿using Cache;
+using Core.Enums;
 using Core.Interfaces;
 
 namespace Core.Implementations;
-public class WonderfulCaptchaService : ICaptchaBuilder, IOptionalCaptchaBuilder
+public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
-    private string _text = default!;
-    private int _height, _width;
-    private StrategyEnum _strategy;
-    private StrategyEnum _complexity;
-    public WonderfulCaptchaService()
+    private readonly ICacheProvider _cacheProvider;
+    public WonderfulCaptchaService(ICacheProvider cacheProvider)
     {
-
-    }
-    public IOptionalCaptchaBuilder WithStrategy(StrategyEnum strategy, CancellationToken cancellationToken = default)
-    {
-        _strategy = strategy;
-        return this;
-    }
-    public IOptionalCaptchaBuilder WithSize(int height = 10, int width = 20, CancellationToken cancellationToken = default)
-    {
-        _height = height;
-        _width = width;
-        return this;
-    }
-    public IOptionalCaptchaBuilder WithComplexity(StrategyEnum complexity, CancellationToken cancellationToken = default)
-    {
-        _complexity = complexity;
-        return this;
-    }
-    public IOptionalCaptchaBuilder WithCaptchaText(string text, CancellationToken cancellationToken = default)
-    {
-        _text = text;
-        return this;
+        _cacheProvider = cacheProvider;
     }
 
-    public object Generate() => throw new NotImplementedException();
-    public object GenerateAsync() => throw new NotImplementedException();
+    public string Generate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<string> GenerateAsync(CancellationToken cancellationToken = default)
+    {
+        var key = Guid.NewGuid().ToString();
+        var value = "a";
+        await _cacheProvider.SetAsync(key, value, TimeSpan.FromMinutes(5), cancellationToken);
+        return key;
+    }
+
+    public bool Verify(string key, string value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
+    {
+        var cached = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        return cached == value;
+    }
+
+    public IWonderfulCaptchaService WithBackGroundColor(string text)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithCaptchaText(string text)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithColor(string text)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithComplexity(StrategyEnum complexity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithLen(int len)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithSize(int height = 10, int width = 20)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IWonderfulCaptchaService WithStrategy(StrategyEnum strategy)
+    {
+        throw new NotImplementedException();
+    }
 }
 
