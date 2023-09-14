@@ -1,4 +1,6 @@
-﻿namespace WonderfulCaptcha;
+﻿using Cache.implementations;
+
+namespace WonderfulCaptcha;
 public class CaptchaOptions
 {
     public string Text { get; set; } = default!;
@@ -19,6 +21,21 @@ public class CaptchaOptions
     public CaptchaOptions WithCaptchaText(string text)
     {
         Text = text;
+        return this;
+    }
+    public CaptchaOptions UseInMemoryCacheProvider()
+    {
+        CacheProvider = typeof(InMemoryCacheProvider);
+        return this;
+    }
+    public CaptchaOptions UseRedisCacheProvider()
+    {
+        CacheProvider = typeof(RedisCacheProvider);
+        return this;
+    }
+    public CaptchaOptions UseEasyCachingCacheProvider()
+    {
+        CacheProvider = typeof(EasyCachingProvider);
         return this;
     }
 }

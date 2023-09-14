@@ -15,13 +15,13 @@ public static class CaptchaServiceCollectionExtensions
         services.AddSingleton<IWonderfulCaptchaService, WonderfulCaptchaService>();
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
-        setCacheProvider(services, captchaOptions.CacheProvider, configuration);
+        SetCacheProvider(services, captchaOptions.CacheProvider, configuration);
     }
 
-    private static void setCacheProvider(IServiceCollection services, Type? cacheProvider, IConfiguration configuration)
+    private static void SetCacheProvider(IServiceCollection services, Type? cacheProvider, IConfiguration configuration)
     {
         if (cacheProvider is null)
-            cacheProvider = typeof(InMemoryCacheProvider);
+            cacheProvider = typeof(RedisCacheProvider);
 
         //if (captchaProvider is InMemoryCacheProvider)
         if (cacheProvider == typeof(InMemoryCacheProvider))
@@ -30,25 +30,28 @@ public static class CaptchaServiceCollectionExtensions
         }
         else if (cacheProvider == typeof(RedisCacheProvider))
         {
-            var redisSettings = configuration.GetSection("App:RedisSettings").Get<RedisSettings>();
+            var redisSettings = configuration.GetSection("RedisSettings").Get<RedisSettings>();
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = $"{redisSettings.Host}:{redisSettings.Port},password={redisSettings.Password}";
+                options.Configuration = redisSettings.ConnectionString;
+                options.InstanceName = redisSettings.CachePrefix;
             });
         }
         else if (cacheProvider == typeof(EasyCachingProvider))
         {
-            var redisSettings = configuration.GetSection("App:RedisSettings").Get<RedisSettings>();
+            var redisSettings = configuration.GetSection("RedisSettings").Get<RedisSettings>();
             services.AddEasyCaching(options =>
             {
+                options.WithJson("JsonSerializer");
                 options.UseRedis(config =>
                 {
+                    config.DBConfig.Endpoints.Add(new ServerEndPoint(redisSettings.Host, redisSettings.Port));
+                    config.DBConfig.Password = redisSettings.Password;
+                    config.DBConfig.KeyPrefix = redisSettings.CachePrefix;
+                    config.SerializerName = "JsonSerializer";
                     config.DBConfig.AllowAdmin = true;
                     config.DBConfig.SyncTimeout = 10000;
                     config.DBConfig.AsyncTimeout = 10000;
-                    config.DBConfig.Endpoints.Add(new ServerEndPoint(redisSettings.Host, redisSettings.Port));
-                    config.DBConfig.Password = redisSettings.Password;
-                    config.EnableLogging = true;
                     config.DBConfig.ConnectionTimeout = 10000;
                 }, "Wonderful_Redis");
             });
