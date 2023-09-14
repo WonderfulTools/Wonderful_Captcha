@@ -9,8 +9,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var redisSettings = builder.Configuration.GetSection("RedisSettings").Get<RedisSettings>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = redisSettings.ConnectionString;
+    options.InstanceName = redisSettings.CachePrefix;
+});
+
 builder.Services.AddWonderfulCaptcha(builder.Configuration, option =>
-    option.UseEasyCachingCacheProvider()
+    option.UseRedisCacheProvider()
 );
 
 var app = builder.Build();

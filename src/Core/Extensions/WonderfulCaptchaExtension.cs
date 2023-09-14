@@ -34,7 +34,7 @@ public static class CaptchaServiceCollectionExtensions
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = redisSettings.ConnectionString;
-                options.InstanceName = redisSettings.CachePrefix;
+                //options.InstanceName = redisSettings.CachePrefix;
             });
         }
         else if (cacheProvider == typeof(EasyCachingProvider))
