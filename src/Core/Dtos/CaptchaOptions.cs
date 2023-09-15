@@ -3,38 +3,60 @@
 namespace WonderfulCaptcha;
 public class CaptchaOptions
 {
+    internal StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
     internal string Text { get; set; } = default!;
-    internal (int Width, int Height) Size { get; set; } = (35, 100);
-    internal StrategyEnum Strategy { get; set; } = StrategyEnum.Digits;
+    internal (int Width, int Height) Size { get; set; } = (10, 10);
     internal (int Min, int Max) TextLen { get; set; } = (5, 7);
+    internal ColorEnum Color { get; set; } = ColorEnum.Red;
+    internal int FontSize { get; set; } = 25;
     internal Type? CacheProvider { get; set; }
     internal TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
+    internal NoiseOptions Nosie { get; set; } = new NoiseOptions();
 
-
+    #region methods
 
     public CaptchaOptions WithSize(int width = 10, int height = 20)
     {
         Size = (width, height);
         return this;
     }
-    public CaptchaOptions WithCaptchaText(string text)
+    public CaptchaOptions WithColor(ColorEnum color)
     {
-        Text = text;
+        Color = color;
         return this;
     }
-    public CaptchaOptions UseInMemoryCacheProvider()
+    public CaptchaOptions WithTextLen(int min, int max)
+    {
+        TextLen = (min, max);
+        return this;
+    }
+    public CaptchaOptions WithFontSize(int fontSize)
+    {
+        FontSize = fontSize;
+        return this;
+    }
+
+    public CaptchaOptions UseInMemoryCacheProvider(TimeSpan? cacheExpirationTime = default!)
     {
         CacheProvider = typeof(InMemoryCacheProvider);
+        if (cacheExpirationTime is not null)
+            CacheExpirationTime = cacheExpirationTime ?? TimeSpan.FromMinutes(1);
         return this;
     }
-    public CaptchaOptions UseRedisCacheProvider()
+    public CaptchaOptions UseRedisCacheProvider(TimeSpan? cacheExpirationTime = default!)
     {
         CacheProvider = typeof(RedisCacheProvider);
+        if (cacheExpirationTime is not null)
+            CacheExpirationTime = cacheExpirationTime ?? TimeSpan.FromMinutes(1);
         return this;
     }
-    public CaptchaOptions UseEasyCachingCacheProvider()
+    public CaptchaOptions UseEasyCachingCacheProvider(TimeSpan? cacheExpirationTime = default!)
     {
         CacheProvider = typeof(EasyCachingProvider);
+        if (cacheExpirationTime is not null)
+            CacheExpirationTime = cacheExpirationTime ?? TimeSpan.FromMinutes(1);
         return this;
     }
+
+    #endregion
 }
