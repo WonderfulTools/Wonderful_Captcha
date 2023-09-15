@@ -1,4 +1,4 @@
-﻿namespace WonderfulCaptcha.Image;
+﻿namespace WonderfulCaptcha.Images;
 
 public interface IImageGenerator
 {

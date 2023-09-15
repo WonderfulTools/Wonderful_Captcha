@@ -10,7 +10,7 @@ public interface IWonderfulCaptchaService
     IWonderfulCaptchaService WithColor(string text);
     IWonderfulCaptchaService WithBackGroundColor(string text);
     string Generate();
-    Task<string> GenerateAsync(CancellationToken cancellationToken = default);
+    Task<CaptchaResult> GenerateAsync(CancellationToken cancellationToken = default);
     bool Verify(string key, string value);
     Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default);
 }

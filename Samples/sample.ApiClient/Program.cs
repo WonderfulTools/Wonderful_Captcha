@@ -9,7 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddWonderfulCaptcha(builder.Configuration, option => option.UseRedisCacheProvider());
+builder.Services.AddWonderfulCaptcha(builder.Configuration,
+    option => option.UseInMemoryCacheProvider());
 
 
 var app = builder.Build();

@@ -4,7 +4,7 @@ namespace WonderfulCaptcha;
 public class CaptchaOptions
 {
     internal string Text { get; set; } = default!;
-    internal (int height, int width) Size { get; set; } = (10, 20);
+    internal (int Width, int Height) Size { get; set; } = (35, 100);
     internal StrategyEnum Strategy { get; set; } = StrategyEnum.Digits;
     internal (int Min, int Max) TextLen { get; set; } = (5, 7);
     internal Type? CacheProvider { get; set; }
@@ -12,9 +12,9 @@ public class CaptchaOptions
 
 
 
-    public CaptchaOptions WithSize(int height = 10, int width = 20)
+    public CaptchaOptions WithSize(int width = 10, int height = 20)
     {
-        Size = (height, width);
+        Size = (width, height);
         return this;
     }
     public CaptchaOptions WithCaptchaText(string text)

@@ -11,6 +11,8 @@ public class SHA256CryptoEngine : ICryptoEngine
     }
     public string Decrypt(string text)
     {
+        if (string.IsNullOrEmpty(text))
+            return default!;
         using (Aes aesAlg = Aes.Create())
         {
             aesAlg.Mode = CipherMode.CFB;
