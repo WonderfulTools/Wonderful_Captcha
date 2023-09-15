@@ -4,6 +4,7 @@ using EasyCaching.Core.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Text;
 
@@ -18,6 +19,7 @@ public static class CaptchaServiceCollectionExtensions
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
         SetCacheProvider(services, captchaOptions.CacheProvider, configuration);
+        services.TryAddSingleton(Options.Create(captchaOptions));
     }
 
     private static void SetCacheProvider(IServiceCollection services, Type? cacheProvider, IConfiguration configuration)

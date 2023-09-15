@@ -1,23 +1,31 @@
 ﻿using Cache;
+using Microsoft.Extensions.Options;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Text;
 
 namespace WonderfulCaptcha;
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
+    private readonly CaptchaOptions captchaOptions;
+
     private readonly ICacheProvider _cacheProvider;
     private readonly ICryptoEngine _cryptoEngine;
     private readonly ITextFactory _textFactory;
-    public WonderfulCaptchaService(ICacheProvider cacheProvider, ICryptoEngine cryptoEngine, ITextFactory textFactory)
+    public WonderfulCaptchaService(ICacheProvider cacheProvider,
+                                   ICryptoEngine cryptoEngine,
+                                   ITextFactory textFactory,
+                                   IOptions<CaptchaOptions> options)
     {
         _cacheProvider = cacheProvider;
         _cryptoEngine = cryptoEngine;
         _textFactory = textFactory;
+        captchaOptions = options.Value;
     }
 
     public string Generate()
     {
-        var value = _textFactory.GetInstance(StrategyEnum.Digits).GetText(5);
+        var value = _textFactory.GetInstance(StrategyEnum.Digits)
+            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
         var value2 = _textFactory.GetInstance(StrategyEnum.Character).GetText(10);
         return value + "-" + value2;
     }
@@ -25,7 +33,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public async Task<string> GenerateAsync(CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
-        var value = _textFactory.GetInstance(StrategyEnum.Digits).GetText(5);
+        var value = _textFactory.GetInstance(captchaOptions.Strategy)
+            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
         await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(value), TimeSpan.FromMinutes(5), cancellationToken);
         return key;
     }
