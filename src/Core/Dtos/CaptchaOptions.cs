@@ -11,7 +11,6 @@ public class CaptchaOptions
     internal TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
 
 
-
     public CaptchaOptions WithSize(int width = 10, int height = 20)
     {
         Size = (width, height);
@@ -20,6 +19,16 @@ public class CaptchaOptions
     public CaptchaOptions WithCaptchaText(string text)
     {
         Text = text;
+        return this;
+    }
+    public CaptchaOptions WithTextLength(int min, int max)
+    {
+        TextLen = (min, max);
+        return this;
+    }
+    public CaptchaOptions WithStrategy(StrategyEnum strategy)
+    {
+        Strategy = strategy;
         return this;
     }
     public CaptchaOptions UseInMemoryCacheProvider()
@@ -35,6 +44,11 @@ public class CaptchaOptions
     public CaptchaOptions UseEasyCachingCacheProvider()
     {
         CacheProvider = typeof(EasyCachingProvider);
+        return this;
+    }
+    public CaptchaOptions UseCacheExpirationTime(TimeSpan cacheExpirationTime)
+    {
+        CacheExpirationTime = cacheExpirationTime;
         return this;
     }
 }
