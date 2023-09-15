@@ -1,14 +1,15 @@
 ﻿using Cache;
-using Core.Enums;
-using Core.Interfaces;
+using WonderfulCaptcha.Crypto;
 
-namespace Core.Implementations;
+namespace WonderfulCaptcha;
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
     private readonly ICacheProvider _cacheProvider;
-    public WonderfulCaptchaService(ICacheProvider cacheProvider)
+    private readonly ICryptoEngine _cryptoEngine;
+    public WonderfulCaptchaService(ICacheProvider cacheProvider, ICryptoEngine cryptoEngine)
     {
         _cacheProvider = cacheProvider;
+        _cryptoEngine = cryptoEngine;
     }
 
     public string Generate()
@@ -20,7 +21,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     {
         var key = Guid.NewGuid().ToString();
         var value = "a";
-        await _cacheProvider.SetAsync(key, value, TimeSpan.FromMinutes(5), cancellationToken);
+        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(value), TimeSpan.FromMinutes(5), cancellationToken);
         return key;
     }
 
@@ -31,8 +32,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
-        var cached = await _cacheProvider.GetAsync<string>(key, cancellationToken);
-        return cached == value;
+        var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        return _cryptoEngine.Decrypt(cachedValue) == value;
     }
 
     public IWonderfulCaptchaService WithBackGroundColor(string text)

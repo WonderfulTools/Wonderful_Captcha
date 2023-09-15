@@ -1,11 +1,11 @@
-using Core.Interfaces;
+using WonderfulCaptcha;
 
 namespace sample.WinformClient
 {
     public partial class Form1 : Form
     {
-        private readonly ICaptchaBuilder _captchaPerBuilderService;
-        public Form1(ICaptchaBuilder captchaPerBuilderService)
+        private readonly IWonderfulCaptchaService _captchaPerBuilderService;
+        public Form1(IWonderfulCaptchaService captchaPerBuilderService)
         {
             InitializeComponent();
             _captchaPerBuilderService = captchaPerBuilderService;

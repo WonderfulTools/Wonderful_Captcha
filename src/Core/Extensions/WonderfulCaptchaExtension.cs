@@ -1,17 +1,17 @@
 ﻿using Cache;
 using Cache.implementations;
-using Core.Implementations;
-using Core.Interfaces;
 using EasyCaching.Core.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WonderfulCaptcha.Crypto;
 
 namespace WonderfulCaptcha;
 public static class CaptchaServiceCollectionExtensions
 {
     public static void AddWonderfulCaptcha(this IServiceCollection services, IConfiguration configuration, Action<CaptchaOptions>? options = null)
     {
+        services.AddSingleton<ICryptoEngine, SHA256CryptoEngine>();
         services.AddSingleton<IWonderfulCaptchaService, WonderfulCaptchaService>();
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
@@ -21,9 +21,8 @@ public static class CaptchaServiceCollectionExtensions
     private static void SetCacheProvider(IServiceCollection services, Type? cacheProvider, IConfiguration configuration)
     {
         if (cacheProvider is null)
-            cacheProvider = typeof(RedisCacheProvider);
+            cacheProvider = typeof(InMemoryCacheProvider);
 
-        //if (captchaProvider is InMemoryCacheProvider)
         if (cacheProvider == typeof(InMemoryCacheProvider))
         {
             services.AddMemoryCache();

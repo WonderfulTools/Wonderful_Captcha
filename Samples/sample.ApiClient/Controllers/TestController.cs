@@ -1,5 +1,5 @@
-using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using WonderfulCaptcha;
 
 namespace sample.ApiClient.Controllers
 {

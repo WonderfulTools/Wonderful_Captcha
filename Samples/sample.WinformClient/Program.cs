@@ -1,4 +1,4 @@
-using Core.Implementations;
+using WonderfulCaptcha;
 
 namespace sample.WinformClient
 {

@@ -1,6 +1,4 @@
-﻿using Core.Enums;
-
-namespace Core.Interfaces;
+﻿namespace WonderfulCaptcha;
 
 public interface IWonderfulCaptchaService
 {
