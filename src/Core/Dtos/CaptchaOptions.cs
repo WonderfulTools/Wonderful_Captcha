@@ -6,7 +6,7 @@ public class CaptchaOptions
     public string Text { get; set; } = default!;
     public (int height, int width) Size { get; set; } = (10, 20);
     public StrategyEnum Strategy { get; set; } = StrategyEnum.Digits;
-    public (int Min, int Max) TextLen { get; set; } = (3, 3);
+    public (int Min, int Max) TextLen { get; set; } = (5, 7);
     public Type? CacheProvider { get; set; }
     public TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
 
