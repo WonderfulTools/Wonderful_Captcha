@@ -71,7 +71,6 @@ public class CaptchaOptions
         CacheExpirationTime = cacheExpirationTime;
         return this;
     }
-}
 
     #endregion
 }
