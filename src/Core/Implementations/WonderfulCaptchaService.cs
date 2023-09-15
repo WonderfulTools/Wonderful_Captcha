@@ -54,6 +54,16 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         return new CaptchaResult(key, image);
     }
 
+    public async Task<CaptchaResult> GenerateLettersAsync(CancellationToken cancellationToken = default)
+    {
+        var key = Guid.NewGuid().ToString();
+        captchaOptions.Text = _textFactory.GetInstance(StrategyEnum.Character)
+            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
+        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
+        var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
+        return new CaptchaResult(key, image);
+    }
+
     public bool Verify(string key, string value)
     {
         var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
