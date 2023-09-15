@@ -33,20 +33,23 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public async Task<string> GenerateAsync(CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
-        var value = _textFactory.GetInstance(captchaOptions.Strategy)
+        captchaOptions.Text = _textFactory.GetInstance(captchaOptions.Strategy)
             .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(value), captchaOptions.CacheExpirationTime, cancellationToken);
+        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
         return key;
     }
 
     public bool Verify(string key, string value)
     {
-        throw new NotImplementedException();
+        var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
+        //_cacheProvider.RemoveAsync(key);
+        return _cryptoEngine.Decrypt(cachedValue) == value;
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
         var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        //await _cacheProvider.RemoveAsync(key, cancellationToken);
         return _cryptoEngine.Decrypt(cachedValue) == value;
     }
 
