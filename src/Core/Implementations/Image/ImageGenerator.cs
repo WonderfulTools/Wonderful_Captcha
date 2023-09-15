@@ -41,7 +41,7 @@ public class ImageGenerator : IImageGenerator
         var random = new Random();
         for (int x = 0; x < image.Width; x++)
             for (int y = 0; y < image.Height; y++)
-                if (random.NextDouble() < captchaOptions.Nosie.Density)
+                if (random.NextDouble() < captchaOptions.Noise.Density)
                     image[x, y] = random.Next(2) == 0 ? GetColor(captchaOptions.Color) : Color.White;
     }
 
