@@ -11,12 +11,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddWonderfulCaptcha(builder.Configuration, option => option.UseRedisCacheProvider());
 
-var redisSettings = builder.Configuration.GetSection("RedisSettings").Get<RedisSettings>();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = redisSettings.ConnectionString;
-    options.InstanceName = redisSettings.CachePrefix;
-});
 
 var app = builder.Build();
 

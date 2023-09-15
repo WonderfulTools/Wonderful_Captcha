@@ -20,6 +20,14 @@ namespace sample.ApiClient.Controllers
             return Ok(value);
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult> Generate2(CancellationToken cancellationToken)
+        {
+            var value = _wonderfulCaptchaService.Generate();
+            return Ok(value);
+        }
+
         [HttpGet]
         public async Task<ActionResult> VerifyAsync(string key, string value, CancellationToken cancellationToken)
         {

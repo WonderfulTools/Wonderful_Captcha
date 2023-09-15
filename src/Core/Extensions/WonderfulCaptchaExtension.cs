@@ -5,14 +5,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WonderfulCaptcha.Crypto;
+using WonderfulCaptcha.Text;
 
 namespace WonderfulCaptcha;
 public static class CaptchaServiceCollectionExtensions
 {
     public static void AddWonderfulCaptcha(this IServiceCollection services, IConfiguration configuration, Action<CaptchaOptions>? options = null)
     {
+        services.AddTransient<IWonderfulCaptchaService, WonderfulCaptchaService>();
         services.AddSingleton<ICryptoEngine, SHA256CryptoEngine>();
-        services.AddSingleton<IWonderfulCaptchaService, WonderfulCaptchaService>();
+        services.AddSingleton<ITextFactory, TextFactory>();
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
         SetCacheProvider(services, captchaOptions.CacheProvider, configuration);
