@@ -8,6 +8,7 @@ public class CaptchaOptions
     public StrategyEnum Strategy { get; set; } = StrategyEnum.Digits;
     public (int Min, int Max) TextLen { get; set; } = (3, 3);
     public Type? CacheProvider { get; set; }
+    public TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
 
     public CaptchaOptions WithSize(int height = 10, int width = 20)
     {

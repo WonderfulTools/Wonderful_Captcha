@@ -35,7 +35,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         var key = Guid.NewGuid().ToString();
         var value = _textFactory.GetInstance(captchaOptions.Strategy)
             .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(value), TimeSpan.FromMinutes(5), cancellationToken);
+        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(value), captchaOptions.CacheExpirationTime, cancellationToken);
         return key;
     }
 
