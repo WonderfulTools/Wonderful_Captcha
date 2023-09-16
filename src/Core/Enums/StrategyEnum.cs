@@ -11,4 +11,5 @@ public enum ColorEnum
     Yellow = 3,
     Black = 4,
     Gray = 5,
+    Blue = 6,
 }

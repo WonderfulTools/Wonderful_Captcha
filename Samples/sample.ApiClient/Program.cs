@@ -9,8 +9,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
+
 builder.Services.AddWonderfulCaptcha(builder.Configuration,
-    option => option.UseInMemoryCacheProvider());
+    option => option.UseInMemoryCacheProvider()
+    .WithFontSize(100));
 
 
 var app = builder.Build();
@@ -23,6 +31,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("MyPolicy");
 
 app.UseAuthorization();
 

@@ -11,7 +11,7 @@
     <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	<PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
-	<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0" />
+	<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

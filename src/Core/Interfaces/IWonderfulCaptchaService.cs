@@ -4,7 +4,7 @@ public interface IWonderfulCaptchaService
 {
     IWonderfulCaptchaService WithStrategy(StrategyEnum strategy);
     IWonderfulCaptchaService WithComplexity(StrategyEnum complexity);
-    IWonderfulCaptchaService WithSize(int height = 10, int width = 20);
+    IWonderfulCaptchaService WithSize(int height = 10, int width = 10);
     IWonderfulCaptchaService WithCaptchaText(string text);
     IWonderfulCaptchaService WithLen(int len);
     IWonderfulCaptchaService WithColor(string text);

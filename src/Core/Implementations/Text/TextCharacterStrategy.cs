@@ -8,7 +8,7 @@ public class TextCharacterStrategy : ITextStrategy
         var rng = RandomNumberGenerator.Create();
         byte[] rno = new byte[len];
         rng.GetBytes(rno);
-        return Convert.ToBase64String(rno).Replace("/", string.Empty).Replace(" ", string.Empty)[..len];
+        return Convert.ToBase64String(rno).Replace("+", string.Empty).Replace("/", string.Empty).Replace(" ", string.Empty)[..len];
     }
 }
 

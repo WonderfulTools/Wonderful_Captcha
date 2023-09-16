@@ -1,5 +1,4 @@
 ﻿using Cache;
-using Microsoft.Extensions.Options;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
@@ -7,7 +6,7 @@ using WonderfulCaptcha.Text;
 namespace WonderfulCaptcha;
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
-    private readonly CaptchaOptions captchaOptions;
+    private CaptchaOptions captchaOptions;
 
     private readonly ICacheProvider _cacheProvider;
     private readonly ICryptoEngine _cryptoEngine;
@@ -16,13 +15,13 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public WonderfulCaptchaService(ICacheProvider cacheProvider,
                                    ICryptoEngine cryptoEngine,
                                    ITextFactory textFactory,
-                                   IOptions<CaptchaOptions> options,
+                                   CaptchaOptions options,
                                    IImageGenerator imageGenerator)
     {
         _cacheProvider = cacheProvider;
         _cryptoEngine = cryptoEngine;
         _textFactory = textFactory;
-        captchaOptions = options.Value;
+        captchaOptions = options;
         _imageGenerator = imageGenerator;
     }
 
@@ -61,6 +60,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
         await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
         var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
+        captchaOptions = new CaptchaOptions();
         return new CaptchaResult(key, image);
     }
 
