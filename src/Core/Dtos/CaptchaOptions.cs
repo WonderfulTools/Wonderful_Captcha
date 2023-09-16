@@ -1,6 +1,7 @@
 ﻿using Cache.implementations;
 
 namespace WonderfulCaptcha;
+
 public class CaptchaOptions
 {
     internal StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
