@@ -1,6 +1,6 @@
 ﻿namespace WonderfulCaptcha;
 
-public interface IWonderfulCaptchaService
+public partial interface IWonderfulCaptchaService
 {
     IWonderfulCaptchaService WithStrategy(StrategyEnum strategy);
     IWonderfulCaptchaService WithComplexity(StrategyEnum complexity);

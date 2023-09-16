@@ -4,7 +4,8 @@ using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
 
 namespace WonderfulCaptcha;
-public class WonderfulCaptchaService : IWonderfulCaptchaService
+
+public partial class WonderfulCaptchaService : IWonderfulCaptchaService
 {
     private CaptchaOptions captchaOptions;
 
@@ -76,41 +77,6 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
         //await _cacheProvider.RemoveAsync(key, cancellationToken);
         return _cryptoEngine.Decrypt(cachedValue) == value;
-    }
-
-    public IWonderfulCaptchaService WithBackGroundColor(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithCaptchaText(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithColor(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithComplexity(StrategyEnum complexity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithLen(int len)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithSize(int height = 10, int width = 20)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IWonderfulCaptchaService WithStrategy(StrategyEnum strategy)
-    {
-        throw new NotImplementedException();
     }
 }
 

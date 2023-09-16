@@ -1,6 +1,7 @@
 ﻿using Cache.implementations;
 
 namespace WonderfulCaptcha;
+
 public class CaptchaOptions
 {
     internal StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
@@ -11,7 +12,7 @@ public class CaptchaOptions
     internal int FontSize { get; set; } = 25;
     internal Type? CacheProvider { get; set; }
     internal TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
-    internal NoiseOptions Nosie { get; set; } = new NoiseOptions();
+    internal NoiseOptions Noise { get; set; } = new NoiseOptions();
 
     #region methods
 
@@ -35,7 +36,16 @@ public class CaptchaOptions
         FontSize = fontSize;
         return this;
     }
-
+    public CaptchaOptions WithTextLength(int min, int max)
+    {
+        TextLen = (min, max);
+        return this;
+    }
+    public CaptchaOptions WithStrategy(StrategyEnum strategy)
+    {
+        Strategy = strategy;
+        return this;
+    }
     public CaptchaOptions UseInMemoryCacheProvider(TimeSpan? cacheExpirationTime = default!)
     {
         CacheProvider = typeof(InMemoryCacheProvider);
@@ -55,6 +65,11 @@ public class CaptchaOptions
         CacheProvider = typeof(EasyCachingProvider);
         if (cacheExpirationTime is not null)
             CacheExpirationTime = cacheExpirationTime ?? TimeSpan.FromMinutes(1);
+        return this;
+    }
+    public CaptchaOptions UseCacheExpirationTime(TimeSpan cacheExpirationTime)
+    {
+        CacheExpirationTime = cacheExpirationTime;
         return this;
     }
 
