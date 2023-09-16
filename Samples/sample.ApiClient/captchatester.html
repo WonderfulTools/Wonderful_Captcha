@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Image Viewer</title>
+</head>
+<body>
+    <h1>Image : </h1>
+    <h3 id = "imageKey">Key : </h1>
+    <div id="imageContainer"></div>
+
+    <script>
+        // Function to fetch data from the API
+        async function fetchData() {
+            try {
+                const response = await fetch("https://localhost:7109/Test/Generate");
+                const data = await response.json();
+
+                if (data.key && data.image) {
+                    // Convert base64 image to an image element
+                    const image = new Image();
+                    image.src = `${data.image}`;
+                    
+                    
+                    // Display the image in the container
+                    const imagekey = document.getElementById("imageKey");
+                    imagekey.innerHTML = "Key : " + data.key;
+
+                    // Display the image in the container
+                    const imageContainer = document.getElementById("imageContainer");
+                    imageContainer.innerHTML = "";
+                    imageContainer.appendChild(image);
+
+                    // Display the key
+                    console.log("Key:", data.key);
+                } else {
+                    console.error("Invalid response from the API.");
+                }
+            } catch (error) {
+                console.error("Error fetching data from the API:", error);
+            }
+        }
+
+        // Call the fetchData function when the page loads
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
