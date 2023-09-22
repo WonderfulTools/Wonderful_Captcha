@@ -40,7 +40,7 @@ public class ContentWriter : IContentWriter
     
     
     private Color GetRandomColor()
-        => ImageUtils.GetColor((ColorEnum)random.Next(10));
+        => ColorUtils.GetColor((ColorEnum)random.Next(10));
     private Brush GetRandomBrush()
     {
         var color = GetRandomColor();

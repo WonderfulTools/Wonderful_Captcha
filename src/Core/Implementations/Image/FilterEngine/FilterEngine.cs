@@ -17,7 +17,7 @@ public class FilterEngine : IFilterEngine
         for (int x = 0; x < image.Width; x++)
         for (int y = 0; y < image.Height; y++)
             if (random.NextDouble() < _captchaOptions.Noise.Density)
-                image[x, y] = random.Next(2) == 0 ? ImageUtils.GetColor(_captchaOptions.Color) : Color.White;
+                image[x, y] = random.Next(2) == 0 ? ColorUtils.GetColor(_captchaOptions.Color) : Color.White;
 
     }
 }
