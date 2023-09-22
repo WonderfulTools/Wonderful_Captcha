@@ -1,3 +1,4 @@
+using System.Numerics;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp.Drawing.Processing;
 
@@ -6,7 +7,6 @@ namespace WonderfulCaptcha.Images;
 public class ContentWriter : IContentWriter
 {
     private readonly CaptchaOptions _captchaOptions;
-    private static Random random = new Random();
 
     public ContentWriter(CaptchaOptions captchaOptions)
         => _captchaOptions = captchaOptions;
@@ -14,56 +14,70 @@ public class ContentWriter : IContentWriter
 
     public void WriteText(Image<Rgba32> image)
     {
-        Font font = new Font(SystemFonts.Get("Arial"), _captchaOptions.FontSize, FontStyle.Italic);
-        var size = FixImageSize(font);
-            
-        for (int i = 0; i < _captchaOptions.Text.Length; i++)
+        var text = _captchaOptions.Text;
+        var fontSize = GetFontSize();
+        
+        for (int i = 0; i < text.Length; i++)
         {
-            var startPointX = i > 0 ? i * size - random.Next(5, 20) : 5;
-            var startPointY = 5 + random.Next(-15, 15);
-            var brush = i == _captchaOptions.Text.Length - 1 ? Brushes.Solid(GetRandomColor()) : GetRandomBrush();
-            font = new Font(SystemFonts.Get("Arial"), _captchaOptions.FontSize - random.Next(50), GetRandomFontStyle());
-            image.Mutate(x => x.DrawText(_captchaOptions.Text[i].ToString(), font, Color.LightSlateGray, new PointF(startPointX - 5, startPointY - 5)));
-            image.Mutate(x => x.DrawText(_captchaOptions.Text[i].ToString(), font, brush, new PointF(startPointX, startPointY)));
+            fontSize = RandomizeFontSize(fontSize);
+            var character = text[i].ToString();
+            var position = GetCharPosition(fontSize, i);
+            
+            DrawingOptions drawingOptions = new() 
+            {
+                Transform = TextTransformFilter.ApplyTransforms(position, _captchaOptions)
+            };
+            
+            PutShadowChar(image, drawingOptions, fontSize, character, position);
+            PutChar(image, drawingOptions, fontSize, character,  position);
         }
     }
-    
-    private float FixImageSize(Font font)
+
+    private void PutChar(Image<Rgba32> image, DrawingOptions drawingOptions, int fontSize, string c, PointF position)
     {
-        var textSize = TextMeasurer.MeasureSize("A", new TextOptions(font));
-        if (textSize.Width * (_captchaOptions.Text.Length - 1) > _captchaOptions.Size.Width)
-            _captchaOptions.Size = (Convert.ToInt32(textSize.Width * (_captchaOptions.Text.Length - 1)) + 10, _captchaOptions.Size.Height);
-        if (textSize.Height > _captchaOptions.Size.Height)
-            _captchaOptions.Size = (_captchaOptions.Size.Width, Convert.ToInt32(textSize.Height) + 10);
-        return textSize.Width;
+        var font = FontUtils.GetFont(_captchaOptions.TextFont, fontSize, _captchaOptions.TextFontStyle);
+        var color = ColorUtils.GetColor(_captchaOptions.TextColor);
+        var brush = BrushUtils.GetBrush(_captchaOptions.TextBrush, color);
+
+        image.Mutate(x => x.DrawText(drawingOptions, c, font, brush, position));
+    }
+    private void PutShadowChar(Image<Rgba32> image, DrawingOptions drawingOptions, int fontSize, string c, PointF position)
+    {
+        if(!_captchaOptions.TextShadow)
+            return;
+        
+        var font = FontUtils.GetFont(_captchaOptions.TextFont, fontSize, _captchaOptions.TextFontStyle);
+        var brush = BrushUtils.GetBrush(_captchaOptions.TextBrush, Color.LightSlateGray);
+        var shadowPosition = new PointF(position.X - 5, position.Y - 5);
+        
+        image.Mutate(x => x.DrawText(drawingOptions, c, font, brush, shadowPosition));
     }
     
+    private int GetFontSize()
+        => _captchaOptions.SizeStrategy switch
+        {
+            SizeStrategy.Fit => SizeUtils.GetFitFontSize(_captchaOptions),
+            SizeStrategy.RelativeFit => SizeUtils.GetRelativeFitFontSize(_captchaOptions),
+            _ => _captchaOptions.FontSize
+        };
     
-    private Color GetRandomColor()
-        => ColorUtils.GetColor((ColorEnum)random.Next(10));
-    private Brush GetRandomBrush()
+    private int RandomizeFontSize(int fontSize)
+        => fontSize + Helpers.GetRandomNumberBetween(-_captchaOptions.FontSizeVarietyRange,
+            _captchaOptions.FontSizeVarietyRange);
+
+    private PointF GetCharPosition(int fontSize, int charIndex)
     {
-        var color = GetRandomColor();
-        return random.Next(15) switch
-        {
-            1 => Brushes.Percent20(color),
-            2 => Brushes.BackwardDiagonal(color),
-            3 => Brushes.ForwardDiagonal(color),
-            4 => Brushes.Horizontal(color),
-            5 => Brushes.Min(color),
-            6 => Brushes.Vertical(color),
-            _ => Brushes.Solid(color),
-        };
-    }
-    private FontStyle GetRandomFontStyle()
-    {
-        var color = GetRandomColor();
-        return random.Next(5) switch
-        {
-            1 => FontStyle.Italic,
-            2 => FontStyle.Bold,
-            3 => FontStyle.BoldItalic,
-            _ => FontStyle.Regular,
-        };
+        var charWidth = FontUtils.GetCharWidth(fontSize);
+
+        var randomRangeX = _captchaOptions.CharPositionVarietyRange.Width;
+        var randomRangeY = _captchaOptions.CharPositionVarietyRange.Height;
+        
+        var width = (charIndex * (charWidth + _captchaOptions.CharSpacing)) +
+                    _captchaOptions.CharSpacing +
+                    Helpers.GetRandomNumberBetween(-randomRangeX, randomRangeX);
+
+        var height = Helpers.GetRandomNumberBetween(0, 2 * randomRangeY);
+
+        return new PointF(width, height);
     }
 }
