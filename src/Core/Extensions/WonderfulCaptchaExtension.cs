@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
+using TextWriter = System.IO.TextWriter;
 
 namespace WonderfulCaptcha;
 public static class CaptchaServiceCollectionExtensions
@@ -17,6 +18,9 @@ public static class CaptchaServiceCollectionExtensions
         services.AddTransient<ICryptoEngine, SHA256CryptoEngine>();
         services.AddTransient<ITextFactory, TextFactory>();
         services.AddTransient<IImageGenerator, ImageGenerator>();
+        services.AddTransient<IContentWriter, ContentWriter>();
+        services.AddTransient<IFilterEngine, FilterEngine>();
+        services.AddTransient<ICanvasBuilder, CanvasBuilder>();
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
         SetCacheProvider(services, captchaOptions.CacheProvider, configuration);
