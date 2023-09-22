@@ -4,19 +4,28 @@ namespace WonderfulCaptcha;
 
 public class CaptchaOptions
 {
-    internal (int Width, int Height) Size { get; set; } = (10, 10);
-    internal SizeStrategy SizeStrategy { get; set; } = SizeStrategy.Fit;
+    internal (int Width, int Height) Size { get; set; } = (350, 100);
+    internal SizeStrategy SizeStrategy { get; set; } = SizeStrategy.Dynamic;
     internal int RelativeFitSizeThreshold { get; set; } = 25;
     internal int CharSpacing { get; set; } = 20;
-    internal (int Width, int Height) CharPositionVarietyRange { get; set; } = (20, 20);
+    internal (int Width, int Height) CharPositionVarietyRange { get; set; } = (5, 5);
     internal (int Min, int Max) TextLen { get; set; } = (5, 7);
-    internal int FontSize { get; set; } = 25;
-
+    internal int FontSize { get; set; } = 50;
     internal int FontSizeVarietyRange { get; set; } = 5;
     
     
     internal StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
     internal string Text { get; set; } = default!;
+
+
+    internal ColorEnum TextColor { get; set; } = ColorEnum.Random;
+    internal FontEnum TextFont { get; set; } = FontEnum.Random;
+    internal FontStyleEnum TextFontStyle { get; set; } = FontStyleEnum.Random;
+    internal BrushEnum TextBrush { get; set; } = BrushEnum.Random;
+    internal bool TextShadow { get; set; } = true;
+    internal int TextRotationRange { get; set; } = 20;
+    internal int TextSkewRange { get; set; } = 30;
+    
     
     internal ColorEnum Color { get; set; } = ColorEnum.Red;
     
