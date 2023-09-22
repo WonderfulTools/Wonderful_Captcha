@@ -12,7 +12,6 @@ public class CanvasBuilder : ICanvasBuilder
     {
         Image<Rgba32> image = new Image<Rgba32>(_captchaOptions.Size.Width, _captchaOptions.Size.Height);
         return image;
-
-
+        
     }
 }
