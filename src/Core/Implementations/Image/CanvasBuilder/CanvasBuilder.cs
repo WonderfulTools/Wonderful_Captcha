@@ -10,8 +10,17 @@ public class CanvasBuilder : ICanvasBuilder
 
     public Image<Rgba32> Create()
     {
-        Image<Rgba32> image = new Image<Rgba32>(_captchaOptions.Size.Width, _captchaOptions.Size.Height);
+        var size = GetSize();
+        Image<Rgba32> image = new Image<Rgba32>(size.Width, size.Height);
         return image;
-        
     }
+
+    private (int Width, int Height) GetSize()
+        => _captchaOptions.SizeStrategy switch
+        {
+            SizeStrategy.Dynamic => SizeUtils.GetDynamicSize(_captchaOptions.FontSize, _captchaOptions),
+            SizeStrategy.RelativeFit => SizeUtils.GetRelativeFitSize(_captchaOptions.Size,_captchaOptions.FontSize, _captchaOptions),
+            _ => _captchaOptions.Size
+        };
+
 }

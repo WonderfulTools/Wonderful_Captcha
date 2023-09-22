@@ -4,15 +4,27 @@ namespace WonderfulCaptcha;
 
 public class CaptchaOptions
 {
+    internal (int Width, int Height) Size { get; set; } = (10, 10);
+    internal SizeStrategy SizeStrategy { get; set; } = SizeStrategy.Fit;
+    internal int RelativeFitSizeThreshold { get; set; } = 25;
+    internal int CharSpacing { get; set; } = 20;
+    internal (int Width, int Height) CharPositionVarietyRange { get; set; } = (20, 20);
+    internal (int Min, int Max) TextLen { get; set; } = (5, 7);
+    internal int FontSize { get; set; } = 25;
+
+    internal int FontSizeVarietyRange { get; set; } = 5;
+    
+    
     internal StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
     internal string Text { get; set; } = default!;
-    internal (int Width, int Height) Size { get; set; } = (10, 10);
-    internal (int Min, int Max) TextLen { get; set; } = (5, 7);
+    
     internal ColorEnum Color { get; set; } = ColorEnum.Red;
-    internal int FontSize { get; set; } = 25;
-    internal Type? CacheProvider { get; set; }
+    
+    
     internal TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
     internal NoiseOptions Noise { get; set; } = new NoiseOptions();
+    
+    internal Type? CacheProvider { get; set; }
 
     #region methods
 
