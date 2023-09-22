@@ -19,7 +19,7 @@ public class CanvasBuilder : ICanvasBuilder
         => _captchaOptions.SizeStrategy switch
         {
             SizeStrategy.Dynamic => SizeUtils.GetDynamicSize(_captchaOptions.FontSize, _captchaOptions),
-            SizeStrategy.RelativeFit => SizeUtils.GetRelativeFitSize(_captchaOptions.Size,_captchaOptions.FontSize, _captchaOptions),
+            SizeStrategy.RelativeFit => SizeUtils.GetRelativeFitSize(_captchaOptions.FontSize, _captchaOptions),
             _ => _captchaOptions.Size
         };
 
