@@ -28,6 +28,8 @@ public class CaptchaOptions
     
     
     internal ColorEnum Color { get; set; } = ColorEnum.Red;
+
+    internal int Complexity { get; set; } = 0;
     
     
     internal TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
@@ -60,6 +62,11 @@ public class CaptchaOptions
     public CaptchaOptions WithTextLength(int min, int max)
     {
         TextLen = (min, max);
+        return this;
+    }
+    public CaptchaOptions WithComplexity(int complexity)
+    {
+        Complexity = complexity;
         return this;
     }
     public CaptchaOptions WithStrategy(StrategyEnum strategy)
