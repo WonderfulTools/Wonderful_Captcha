@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
-using TextWriter = System.IO.TextWriter;
 
 namespace WonderfulCaptcha;
 public static class CaptchaServiceCollectionExtensions
@@ -24,7 +23,33 @@ public static class CaptchaServiceCollectionExtensions
         var captchaOptions = new CaptchaOptions();
         options?.Invoke(captchaOptions);
         SetCacheProvider(services, captchaOptions.CacheProvider, configuration);
-        services.AddTransient<CaptchaOptions>(s => captchaOptions);
+        services.AddScoped(s => new CaptchaOptions
+        {
+            Text = captchaOptions.Text,
+            CacheExpirationTime = captchaOptions.CacheExpirationTime,
+            CacheProvider = captchaOptions.CacheProvider,
+            CharPositionVarietyRange = captchaOptions.CharPositionVarietyRange,
+            CharSpacing = captchaOptions.CharSpacing,
+            Color = captchaOptions.Color,
+            FontSize = captchaOptions.FontSize,
+            FontSizeVarietyRange = captchaOptions.FontSizeVarietyRange,
+            RelativeFitSizeThreshold = captchaOptions.RelativeFitSizeThreshold,
+            Size = captchaOptions.Size,
+            SizeStrategy = captchaOptions.SizeStrategy,
+            Strategy = captchaOptions.Strategy,
+            TextBrush = captchaOptions.TextBrush,
+            TextColor = captchaOptions.TextColor,
+            TextFont = captchaOptions.TextFont,
+            TextFontStyle = captchaOptions.TextFontStyle,
+            TextLen = captchaOptions.TextLen,
+            TextRotationRange = captchaOptions.TextRotationRange,
+            TextShadow = captchaOptions.TextShadow,
+            TextSkewRange = captchaOptions.TextSkewRange,
+            Noise = new NoiseOptions
+            {
+                Density = captchaOptions.Noise.Density,
+            },
+        });
     }
 
     private static void SetCacheProvider(IServiceCollection services, Type? cacheProvider, IConfiguration configuration)
