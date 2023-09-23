@@ -1,4 +1,6 @@
-﻿namespace WonderfulCaptcha;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace WonderfulCaptcha;
 
 public partial class WonderfulCaptchaService
 {
@@ -10,7 +12,8 @@ public partial class WonderfulCaptchaService
 
     public IWonderfulCaptchaService WithCaptchaText(string text)
     {
-        throw new NotImplementedException();
+        captchaOptions.Text = text;
+        return this;
     }
 
     public IWonderfulCaptchaService WithColor(string text)
@@ -18,23 +21,27 @@ public partial class WonderfulCaptchaService
         throw new NotImplementedException();
     }
 
-    public IWonderfulCaptchaService WithComplexity(StrategyEnum complexity)
+    public IWonderfulCaptchaService WithComplexity(int complexity)
     {
-        throw new NotImplementedException();
+        captchaOptions.Complexity = complexity;
+        return this;
     }
 
-    public IWonderfulCaptchaService WithLen(int len)
+    public IWonderfulCaptchaService WithLen(int min, int max)
     {
-        throw new NotImplementedException();
+        captchaOptions.TextLen = (min, max);
+        return this;
     }
 
     public IWonderfulCaptchaService WithSize(int height = 10, int width = 20)
     {
-        throw new NotImplementedException();
+        captchaOptions.Size = (height, width);
+        return this;
     }
 
     public IWonderfulCaptchaService WithStrategy(StrategyEnum strategy)
     {
-        throw new NotImplementedException();
+        captchaOptions.Strategy = strategy;
+        return this;
     }
 }
