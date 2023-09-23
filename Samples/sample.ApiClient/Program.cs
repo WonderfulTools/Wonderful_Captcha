@@ -20,7 +20,6 @@ builder.Services.AddWonderfulCaptcha(builder.Configuration,
     option => option.UseInMemoryCacheProvider()
     .WithFontSize(100));
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
