@@ -1,5 +1,5 @@
-using sample.ApiClient;
 using WonderfulCaptcha;
+using WonderfulCaptcha.Cache.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +21,21 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddWonderfulCaptcha(builder.Configuration,
     option => option
-    .UseCacheProvider<BehdadProvider>(builder.Services)
+    .UseInMemoryCacheProvider(builder.Services)
     .WithTextFontSize(100)
     .WithTextBrush(BrushEnum.Solid)
     .WithTextShadow(false)
-    .UseNoise(new() { SaltAndPepperDensity = 0.005 })
-    );
+    .WithTextColor(ColorEnum.Blue)
+    .WithTextLength(5, 5)
+    .WithImageSizeStrategy(ImageSizeStrategy.Fit)
+    .WithTextFontSizeVarietyRange(20)
+    .WithTextSkewRange(10)
+    .UseNoise(new()
+    {
+        SaltAndPepperDensity = 0.09,
+        OilPaintLevel = 0,
+        MaxLineNumbers = 10,
+    }));
 
 var app = builder.Build();
 

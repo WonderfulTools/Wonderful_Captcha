@@ -7,12 +7,12 @@ public static class SizeUtils
 {
     public static (int Width, int Height) GetDynamicSize(float fontSize, CaptchaOptions options)
     {
-        Font font = new Font(SystemFonts.Get(FontSettings.DefaultFont), fontSize, FontSettings.DefaultFontStyle);
+        Font font = new(SystemFonts.Get(FontSettings.DefaultFont), fontSize, FontSettings.DefaultFontStyle);
         var charSize = TextMeasurer.MeasureSize("A", new TextOptions(font));
-        
+
         var width =
-            (options.TextLen.Max * charSize.Width) +
-            (options.TextLen.Max + 1) * options.CharSpacing +
+            (options.Text.Length * charSize.Width) +
+            (options.Text.Length + 1) * options.CharSpacing +
             (2 * options.CharPositionVarietyRange.Width);
 
         var height =
@@ -25,11 +25,11 @@ public static class SizeUtils
     {
         var dynamicSize = GetDynamicSize(fontSize, options);
         var fitSize = options.ImageSize;
-        
+
         var relativeDifference =
             (dynamicSize.Width * dynamicSize.Width + dynamicSize.Height + dynamicSize.Height) -
             (fitSize.Width * fitSize.Width + fitSize.Height * fitSize.Height);
-        
+
         var relativeThreshold = options.RelativeFitSizeThreshold * options.RelativeFitSizeThreshold;
 
         if (relativeDifference <= 0)
@@ -38,7 +38,7 @@ public static class SizeUtils
         return relativeDifference < relativeThreshold ? dynamicSize : fitSize;
     }
 
-    
+
     public static int GetFitFontSize(CaptchaOptions options)
     {
         var fontSize = options.FontSize;
@@ -56,11 +56,11 @@ public static class SizeUtils
     {
         var dynamicSize = GetDynamicSize(options.FontSize, options);
         var fitSize = options.ImageSize;
-        
+
         var relativeDifference =
             (dynamicSize.Width * dynamicSize.Width + dynamicSize.Height + dynamicSize.Height) -
             (fitSize.Width * fitSize.Width + fitSize.Height * fitSize.Height);
-        
+
         var relativeThreshold = options.RelativeFitSizeThreshold * options.RelativeFitSizeThreshold;
 
         var fitFontSize = GetFitFontSize(options);
@@ -72,5 +72,5 @@ public static class SizeUtils
         return relativeDifference < relativeThreshold ? dynamicFontSize : fitFontSize;
     }
 
-    
+
 }

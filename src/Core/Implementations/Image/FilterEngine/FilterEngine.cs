@@ -32,8 +32,10 @@ public class FilterEngine : IFilterEngine
         image.Mutate(x => x
             .GaussianBlur(0.5f)
             .Saturate(0.8f)
-            .OilPaint(_captchaOptions.Noise.OilPaintLevel, 8)
             );
+
+        if (_captchaOptions.Noise.OilPaintLevel > 0)
+            image.Mutate(x => x.OilPaint(_captchaOptions.Noise.OilPaintLevel, 8));
 
     }
 }

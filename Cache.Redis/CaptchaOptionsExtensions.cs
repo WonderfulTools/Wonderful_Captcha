@@ -5,7 +5,7 @@ using WonderfulCaptcha.Cache.Redis;
 namespace WonderfulCaptcha.Cache.InMemory;
 public static class CaptchaOptionsExtensions
 {
-    public static CaptchaOptions UseInMemoryCacheProvider(this CaptchaOptions captchaOptions, IServiceCollection services, TimeSpan? cacheExpirationTime = default!)
+    public static CaptchaOptions UseRedisCacheProvider(this CaptchaOptions captchaOptions, IServiceCollection services, TimeSpan? cacheExpirationTime = default!)
     {
         services.TryAddScoped<ICacheProvider, RedisCacheProvider>();
         return captchaOptions;
