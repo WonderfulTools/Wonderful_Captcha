@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Cache.implementations;
+namespace WonderfulCaptcha.Cache.Redis;
 
 public class RedisCacheProvider : ICacheProvider
 {

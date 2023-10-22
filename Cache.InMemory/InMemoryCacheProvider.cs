@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Cache.implementations;
+namespace WonderfulCaptcha.Cache.InMemory;
 
 public class InMemoryCacheProvider : ICacheProvider
 {

@@ -1,82 +1,48 @@
-﻿using Cache;
-using WonderfulCaptcha.Crypto;
-using WonderfulCaptcha.Images;
-using WonderfulCaptcha.Text;
+﻿using WonderfulCaptcha.Images;
 
 namespace WonderfulCaptcha;
 
 public partial class WonderfulCaptchaService : IWonderfulCaptchaService
 {
-    private CaptchaOptions captchaOptions;
+    private CaptchaOptions _options;
+    private IImageGenerator _imageGenerator;
 
-    private readonly ICacheProvider _cacheProvider;
-    private readonly ICryptoEngine _cryptoEngine;
-    private readonly ITextFactory _textFactory;
-    private readonly IImageGenerator _imageGenerator;
-    public WonderfulCaptchaService(ICacheProvider cacheProvider,
-                                   ICryptoEngine cryptoEngine,
-                                   ITextFactory textFactory,
-                                   CaptchaOptions options,
-                                   IImageGenerator imageGenerator)
+    public WonderfulCaptchaService(CaptchaOptions captchaOptions, IImageGenerator imageGenerator)
     {
-        _cacheProvider = cacheProvider;
-        _cryptoEngine = cryptoEngine;
-        _textFactory = textFactory;
-        captchaOptions = options;
+        _options = captchaOptions;
         _imageGenerator = imageGenerator;
     }
 
     public string Generate()
     {
-        var value = _textFactory.GetInstance(StrategyEnum.Digits)
-            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        var value2 = _textFactory.GetInstance(StrategyEnum.Character).GetText(10);
+        var value = _options.TextProvider.GetInstance(StrategyEnum.Digits)
+            .GetText(Helpers.GetRandomNumberBetween(_options.TextLen.Min, _options.TextLen.Max));
+        var value2 = _options.TextProvider.GetInstance(StrategyEnum.Character).GetText(10);
         return value + "-" + value2;
     }
 
     public async Task<CaptchaResult> GenerateAsync(CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
-        captchaOptions.Text = _textFactory.GetInstance(captchaOptions.Strategy)
-            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
-        var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
-        return new CaptchaResult(key, image);
-    }
-
-    public async Task<CaptchaResult> GenerateDigitsAsync(CancellationToken cancellationToken = default)
-    {
-        var key = Guid.NewGuid().ToString();
-        captchaOptions.Text = _textFactory.GetInstance(StrategyEnum.Digits)
-            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
-        var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
-        return new CaptchaResult(key, image);
-    }
-
-    public async Task<CaptchaResult> GenerateLettersAsync(CancellationToken cancellationToken = default)
-    {
-        var key = Guid.NewGuid().ToString();
-        captchaOptions.Text = _textFactory.GetInstance(StrategyEnum.Character)
-            .GetText(Helpers.GetRandomNumberBetween(captchaOptions.TextLen.Min, captchaOptions.TextLen.Max));
-        await _cacheProvider.SetAsync(key, _cryptoEngine.Encrypt(captchaOptions.Text), captchaOptions.CacheExpirationTime, cancellationToken);
-        var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
-        captchaOptions = new CaptchaOptions();
+        _options.Text = _options.TextProvider.GetInstance(_options.Strategy)
+            .GetText(Helpers.GetRandomNumberBetween(_options.TextLen.Min, _options.TextLen.Max));
+        await _options.CacheProvider.SetAsync(key, _options.CryptoProvider.Encrypt(_options.Text), _options.CacheExpirationTime, cancellationToken);
+        var image = await _options.ImageGenerator.GenerateImageAsync(cancellationToken);
         return new CaptchaResult(key, image);
     }
 
     public bool Verify(string key, string value)
     {
-        var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
+        var cachedValue = _options.CacheProvider.GetAsync<string>(key).Result;
         //_cacheProvider.RemoveAsync(key);
-        return _cryptoEngine.Decrypt(cachedValue) == value;
+        return _options.CryptoProvider.Decrypt(cachedValue) == value;
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
-        var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        var cachedValue = await _options.CacheProvider.GetAsync<string>(key, cancellationToken);
         //await _cacheProvider.RemoveAsync(key, cancellationToken);
-        return _cryptoEngine.Decrypt(cachedValue) == value;
+        return _options.CryptoProvider.Decrypt(cachedValue).ToLower() == value.ToLower();
     }
 }
 

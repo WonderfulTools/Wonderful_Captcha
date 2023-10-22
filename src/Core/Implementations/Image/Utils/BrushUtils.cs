@@ -4,8 +4,8 @@ namespace WonderfulCaptcha.Images;
 
 public class BrushUtils
 {
-    private static readonly Random Random = new Random();
-    
+    private static readonly Random Random = new();
+
     public static Brush GetBrush(BrushEnum brush, Color color) =>
         brush switch
         {
@@ -16,6 +16,6 @@ public class BrushUtils
             BrushEnum.Min => Brushes.Min(color),
             BrushEnum.Vertical => Brushes.Vertical(color),
             BrushEnum.Solid => Brushes.Solid(color),
-            _ => GetBrush((BrushEnum)Random.Next(8), color),
+            _ => GetBrush((BrushEnum)Random.Next(9), color),
         };
 }

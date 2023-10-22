@@ -6,21 +6,22 @@ public class CanvasBuilder : ICanvasBuilder
 
     public CanvasBuilder(CaptchaOptions captchaOptions)
         => _captchaOptions = captchaOptions;
-    
+
 
     public Image<Rgba32> Create()
     {
-        var size = GetSize();
-        Image<Rgba32> image = new Image<Rgba32>(size.Width, size.Height);
+        _captchaOptions.ImageSize = GetSize();
+        var backgroundColor = _captchaOptions.ImageBackgroundColorHex is not null ? ColorUtils.GetColor(_captchaOptions.ImageBackgroundColorHex) : ColorUtils.GetColor(_captchaOptions.ImageBackgroundColor);
+        Image<Rgba32> image = new(_captchaOptions.ImageSize.Width, _captchaOptions.ImageSize.Height, backgroundColor);
         return image;
     }
 
     private (int Width, int Height) GetSize()
-        => _captchaOptions.SizeStrategy switch
+        => _captchaOptions.ImageSizeStrategy switch
         {
-            SizeStrategy.Dynamic => SizeUtils.GetDynamicSize(_captchaOptions.FontSize, _captchaOptions),
-            SizeStrategy.RelativeFit => SizeUtils.GetRelativeFitSize(_captchaOptions.FontSize, _captchaOptions),
-            _ => _captchaOptions.Size
+            ImageSizeStrategy.Dynamic => SizeUtils.GetDynamicSize(_captchaOptions.FontSize, _captchaOptions),
+            ImageSizeStrategy.RelativeFit => SizeUtils.GetRelativeFitSize(_captchaOptions.FontSize, _captchaOptions),
+            _ => _captchaOptions.ImageSize
         };
 
 }

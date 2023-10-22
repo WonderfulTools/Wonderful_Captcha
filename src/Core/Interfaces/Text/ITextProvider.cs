@@ -3,7 +3,7 @@
 /// <summary>
 ///  This is responsible for giving write ITextStrategy
 /// </summary>
-public interface ITextFactory
+public interface ITextProvider
 {
     /// <summary>Retrieves a specific ITextStrategy Instance by its type</summary>
     /// <param name="type">The type of the strategy to retrieve</param>

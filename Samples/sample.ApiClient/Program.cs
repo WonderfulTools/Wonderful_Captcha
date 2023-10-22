@@ -1,3 +1,4 @@
+using sample.ApiClient;
 using WonderfulCaptcha;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +17,16 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
            .AllowAnyHeader();
 }));
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddWonderfulCaptcha(builder.Configuration,
-    option => option.UseInMemoryCacheProvider()
-    .WithFontSize(100));
+    option => option
+    .UseCacheProvider<BehdadProvider>(builder.Services)
+    .WithTextFontSize(100)
+    .WithTextBrush(BrushEnum.Solid)
+    .WithTextShadow(false)
+    .UseNoise(new() { SaltAndPepperDensity = 0.005 })
+    );
 
 var app = builder.Build();
 

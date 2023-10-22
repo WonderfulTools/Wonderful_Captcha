@@ -2,10 +2,11 @@ namespace WonderfulCaptcha;
 
 public enum ColorEnum
 {
-    Red = 1,
-    Green = 2,
+    Random = 1,
+    Red = 2,
+    Green = 3,
     Black = 4,
     Gray = 5,
     Blue = 6,
-    Random = 7,
+    White = 7,
 }

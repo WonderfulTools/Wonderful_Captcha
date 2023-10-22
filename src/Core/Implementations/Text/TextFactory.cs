@@ -1,5 +1,5 @@
 ﻿namespace WonderfulCaptcha.Text;
-public class TextFactory : ITextFactory
+public class TextFactory : ITextProvider
 {
     public ITextStrategy GetInstance(StrategyEnum type)
         => type switch

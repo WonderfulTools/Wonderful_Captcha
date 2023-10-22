@@ -1,7 +1,7 @@
 ﻿
 using EasyCaching.Core;
 
-namespace Cache.implementations;
+namespace WonderfulCaptcha.Cache.EasyCaching;
 
 public class EasyCachingProvider : ICacheProvider
 {

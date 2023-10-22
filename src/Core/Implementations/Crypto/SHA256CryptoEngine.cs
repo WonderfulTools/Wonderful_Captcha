@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace WonderfulCaptcha.Crypto;
-public class SHA256CryptoEngine : ICryptoEngine
+public class SHA256CryptoEngine : ICryptoProvider
 {
     private readonly string _key;
     public SHA256CryptoEngine()

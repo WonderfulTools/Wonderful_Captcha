@@ -2,12 +2,12 @@ namespace WonderfulCaptcha;
 
 public enum BrushEnum
 {
-    Percent20 = 1,
-    BackwardDiagonal,
-    ForwardDiagonal,
-    Horizontal,
-    Min,
-    Vertical,
-    Solid,
-    Random
+    Random = 1,
+    Percent20 = 2,
+    BackwardDiagonal = 3,
+    ForwardDiagonal = 4,
+    Horizontal = 5,
+    Min = 6,
+    Vertical = 7,
+    Solid = 8,
 }

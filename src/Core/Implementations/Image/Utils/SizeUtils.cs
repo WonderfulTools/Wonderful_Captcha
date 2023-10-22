@@ -24,7 +24,7 @@ public static class SizeUtils
     public static (int Width, int Height) GetRelativeFitSize(float fontSize, CaptchaOptions options)
     {
         var dynamicSize = GetDynamicSize(fontSize, options);
-        var fitSize = options.Size;
+        var fitSize = options.ImageSize;
         
         var relativeDifference =
             (dynamicSize.Width * dynamicSize.Width + dynamicSize.Height + dynamicSize.Height) -
@@ -45,7 +45,7 @@ public static class SizeUtils
         do
         {
             var dynamicSize = GetDynamicSize(fontSize, options);
-            if (dynamicSize.Width <= options.Size.Width)
+            if (dynamicSize.Width <= options.ImageSize.Width)
                 return fontSize;
             fontSize--;
         } while (fontSize > 0);
@@ -55,7 +55,7 @@ public static class SizeUtils
     public static int GetRelativeFitFontSize(CaptchaOptions options)
     {
         var dynamicSize = GetDynamicSize(options.FontSize, options);
-        var fitSize = options.Size;
+        var fitSize = options.ImageSize;
         
         var relativeDifference =
             (dynamicSize.Width * dynamicSize.Width + dynamicSize.Height + dynamicSize.Height) -

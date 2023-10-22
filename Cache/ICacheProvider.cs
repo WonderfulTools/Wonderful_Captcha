@@ -1,4 +1,4 @@
-﻿namespace Cache;
+﻿namespace WonderfulCaptcha.Cache;
 
 public interface ICacheProvider
 {
