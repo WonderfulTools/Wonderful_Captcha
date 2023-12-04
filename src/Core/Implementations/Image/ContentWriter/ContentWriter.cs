@@ -35,11 +35,14 @@ public class ContentWriter : IContentWriter
     private void PutChar(Image<Rgba32> image, DrawingOptions drawingOptions, int fontSize, string c, PointF position)
     {
         var font = FontUtils.GetFont(_captchaOptions.TextOptions.TextFont, fontSize, _captchaOptions.TextOptions.TextFontStyle);
-        var color = _captchaOptions.TextOptions.TextColorHex is not null ? ColorUtils.GetColor(_captchaOptions.TextOptions.TextColorHex) : ColorUtils.GetColor(_captchaOptions.TextOptions.TextColor);
+        var color = _captchaOptions.TextOptions.TextColorHex is not null ?
+            ColorUtils.GetColor(_captchaOptions.TextOptions.TextColorHex) :
+            ColorUtils.GetColor(_captchaOptions.TextOptions.TextColor);
         var brush = BrushUtils.GetBrush(_captchaOptions.TextOptions.TextBrush, color);
 
         image.Mutate(x => x.DrawText(drawingOptions, c, font, brush, position));
     }
+
     private void PutShadowChar(Image<Rgba32> image, DrawingOptions drawingOptions, int fontSize, string c, PointF position)
     {
         if (!_captchaOptions.TextOptions.TextShadow)

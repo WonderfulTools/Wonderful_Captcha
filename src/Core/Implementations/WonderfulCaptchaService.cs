@@ -27,7 +27,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         _imageGenerator = imageGenerator;
     }
 
-    public string Generate(CaptchaOptions options = default!)
+    public CaptchaResult Generate(CaptchaOptions options = default!)
     {
         throw new NotImplementedException();
     }
@@ -40,6 +40,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));
 
         await _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Text), _options.CacheOptions.CacheExpirationTime, cancellationToken);
+
         var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
         return new CaptchaResult(key, image);
     }
@@ -47,14 +48,14 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public bool Verify(string key, string value)
     {
         var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
-        //_cacheProvider.RemoveAsync(key);
+        _cacheProvider.RemoveAsync(key);
         return _cryptoProvider.Decrypt(cachedValue) == value;
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
         var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
-        //await _cacheProvider.RemoveAsync(key, cancellationToken);
+        await _cacheProvider.RemoveAsync(key, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).ToLower() == value.ToLower();
     }
 }

@@ -13,7 +13,9 @@ public class CanvasBuilder : ICanvasBuilder
     public Image<Rgba32> Create()
     {
         _captchaOptions.ImageOptions.ImageSize = GetSize();
-        var backgroundColor = _captchaOptions.ImageOptions.ImageBackgroundColorHex is not null ? ColorUtils.GetColor(_captchaOptions.ImageOptions.ImageBackgroundColorHex) : ColorUtils.GetColor(_captchaOptions.ImageOptions.ImageBackgroundColor);
+        var backgroundColor = _captchaOptions.ImageOptions.ImageBackgroundColorHex is not null ?
+                                ColorUtils.GetColor(_captchaOptions.ImageOptions.ImageBackgroundColorHex) :
+                                ColorUtils.GetColor(_captchaOptions.ImageOptions.ImageBackgroundColor);
         Image<Rgba32> image = new(_captchaOptions.ImageOptions.ImageSize.Width, _captchaOptions.ImageOptions.ImageSize.Height, backgroundColor);
         return image;
     }

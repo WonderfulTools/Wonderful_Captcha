@@ -1,6 +1,6 @@
 namespace WonderfulCaptcha;
 
-public enum FontStyleEnum
+public enum FontStyleEnum : byte
 {
     Italic = 1,
     Bold,

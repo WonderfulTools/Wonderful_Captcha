@@ -1,6 +1,6 @@
 namespace WonderfulCaptcha;
 
-public enum BrushEnum
+public enum BrushEnum : byte
 {
     Random = 1,
     Percent20 = 2,

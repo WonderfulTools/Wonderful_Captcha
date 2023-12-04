@@ -1,6 +1,6 @@
 namespace WonderfulCaptcha;
 
-public enum ColorEnum
+public enum ColorEnum : byte
 {
     Random = 1,
     Red = 2,
