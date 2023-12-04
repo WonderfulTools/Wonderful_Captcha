@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,23 +21,14 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 
 builder.Services.AddMemoryCache();
 
-builder.Services.AddWonderfulCaptcha(builder.Configuration,
-    option => option
-    .UseInMemoryCacheProvider(builder.Services)
-    .WithTextFontSize(100)
-    .WithTextBrush(BrushEnum.Solid)
-    .WithTextShadow(false)
-    .WithTextColor(ColorEnum.Blue)
-    .WithTextLength(5, 5)
-    .WithImageSizeStrategy(ImageSizeStrategy.Fit)
-    .WithTextFontSizeVarietyRange(20)
-    .WithTextSkewRange(10)
-    .UseNoise(new()
-    {
-        SaltAndPepperDensity = 0.09,
-        OilPaintLevel = 0,
-        MaxLineNumbers = 10,
-    }));
+builder.Services.AddWonderfulCaptcha(builder.Configuration, options =>
+{
+    options.TextOptions.TextColor = ColorEnum.Random;
+    options.TextOptions.TextBrush = BrushEnum.Random;
+    options.NoiseOptions.OilPaintLevel = 0;
+    options.NoiseOptions.SaltAndPepperDensityPercent = 1;
+})
+.UseInMemoryCacheProvider(builder.Services);
 
 var app = builder.Build();
 

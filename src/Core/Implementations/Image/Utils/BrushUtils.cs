@@ -9,6 +9,7 @@ public class BrushUtils
     public static Brush GetBrush(BrushEnum brush, Color color) =>
         brush switch
         {
+            BrushEnum.Random => GetBrush((BrushEnum)Random.Next(15), color),
             BrushEnum.Percent20 => Brushes.Percent20(color),
             BrushEnum.BackwardDiagonal => Brushes.BackwardDiagonal(color),
             BrushEnum.ForwardDiagonal => Brushes.ForwardDiagonal(color),
@@ -16,6 +17,6 @@ public class BrushUtils
             BrushEnum.Min => Brushes.Min(color),
             BrushEnum.Vertical => Brushes.Vertical(color),
             BrushEnum.Solid => Brushes.Solid(color),
-            _ => GetBrush((BrushEnum)Random.Next(9), color),
+            _ => Brushes.Solid(color),
         };
 }

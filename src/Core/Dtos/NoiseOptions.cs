@@ -7,15 +7,15 @@ public class NoiseOptions
 {
     public NoiseOptions()
     {
-        SaltAndPepperDensity = 0;
+        SaltAndPepperDensityPercent = 0;
     }
     public NoiseOptions(double saltAndPepperDensity = 0.02, int MaxLineNumbers = 3, int OilPaintLevel = 8)
     {
-        SaltAndPepperDensity = saltAndPepperDensity;
+        SaltAndPepperDensityPercent = saltAndPepperDensity;
     }
-    public double SaltAndPepperDensity { set; get; } = 0.02;
+    public double SaltAndPepperDensityPercent { set; get; } = 2;
     public int MaxLineNumbers { set; get; } = 3;
-    public int OilPaintLevel { set; get; } = 8;
+    public int OilPaintLevel { set; get; } = 0;
 
 
 }

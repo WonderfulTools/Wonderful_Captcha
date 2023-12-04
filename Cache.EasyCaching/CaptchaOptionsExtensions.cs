@@ -5,9 +5,9 @@ using WonderfulCaptcha.Cache.EasyCaching;
 namespace WonderfulCaptcha.Cache.InMemory;
 public static class CaptchaOptionsExtensions
 {
-    public static CaptchaOptions UseInMemoryCacheProvider(this CaptchaOptions captchaOptions, IServiceCollection services, TimeSpan? cacheExpirationTime = default!)
+    public static IWonderfulCaptchaBuilder UseInMemoryCacheProvider(this IWonderfulCaptchaBuilder builder, IServiceCollection services)
     {
         services.TryAddScoped<ICacheProvider, EasyCachingProvider>();
-        return captchaOptions;
+        return builder;
     }
 }

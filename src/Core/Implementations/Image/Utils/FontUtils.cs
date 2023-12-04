@@ -4,19 +4,19 @@ namespace WonderfulCaptcha.Images;
 
 public class FontUtils
 {
-    private static readonly Random Random = new Random();
+    private static readonly Random Random = new();
 
     public static Font GetFont(FontEnum fontFamily, int fontSize, FontStyleEnum style)
-        => new Font(GetFontFamily(fontFamily), fontSize, GetFontStyle(style));
-    
+        => new(GetFontFamily(fontFamily), fontSize, GetFontStyle(style));
+
     public static FontFamily GetFontFamily(FontEnum font)
         => font switch
         {
             FontEnum.Arial => SystemFonts.Get("Arial"),
             _ => GetFontFamily((FontEnum)Random.Next(8))
         };
-    
-    public static FontStyle GetFontStyle(FontStyleEnum style) 
+
+    public static FontStyle GetFontStyle(FontStyleEnum style)
         => style switch
         {
             FontStyleEnum.Italic => FontStyle.Italic,
@@ -27,12 +27,12 @@ public class FontUtils
         };
 
     public static float GetCharWidth(Font font)
-        => TextMeasurer.MeasureSize("A", new TextOptions(font)).Width;
+        => TextMeasurer.MeasureSize("A", new SixLabors.Fonts.TextOptions(font)).Width;
 
     public static float GetCharWidth(int fontSize)
     {
         var font = GetFont(FontEnum.Arial, fontSize, FontStyleEnum.Regular);
-        return TextMeasurer.MeasureSize("A", new TextOptions(font)).Width;
+        return TextMeasurer.MeasureSize("A", new SixLabors.Fonts.TextOptions(font)).Width;
     }
-        
+
 }

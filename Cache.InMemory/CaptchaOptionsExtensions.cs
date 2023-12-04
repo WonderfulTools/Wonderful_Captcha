@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace WonderfulCaptcha.Cache.InMemory;
 public static class CaptchaOptionsExtensions
 {
-    public static CaptchaOptions UseInMemoryCacheProvider(this CaptchaOptions captchaOptions, IServiceCollection services, TimeSpan? cacheExpirationTime = default!)
+    public static IWonderfulCaptchaBuilder UseInMemoryCacheProvider(this IWonderfulCaptchaBuilder builder, IServiceCollection services)
     {
         services.TryAddScoped<ICacheProvider, InMemoryCacheProvider>();
-        return captchaOptions;
+        return builder;
     }
 }
