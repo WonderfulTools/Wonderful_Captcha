@@ -16,8 +16,10 @@ namespace sample.ApiClient.Controllers
         [HttpGet]
         public async Task<ActionResult> GenerateAsync(CancellationToken cancellationToken)
         {
-            var value = await _wonderfulCaptchaService
-                .GenerateAsync(cancellationToken: cancellationToken);
+            var value = await _wonderfulCaptchaService.GenerateAsync(options =>
+            {
+                options.TextOptions.TextColor = ColorEnum.Green;
+            }, cancellationToken: cancellationToken);
             return Ok(value);
         }
 

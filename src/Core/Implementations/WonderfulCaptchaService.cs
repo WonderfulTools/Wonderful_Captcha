@@ -40,9 +40,11 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         return new CaptchaResult(key, image.Result);
     }
 
-    public async Task<CaptchaResult> GenerateAsync(CaptchaOptions options = default!, CancellationToken cancellationToken = default)
+    public async Task<CaptchaResult> GenerateAsync(Action<CaptchaOptions> options = default!, CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
+
+        options.Invoke(_options);
 
         _options.TextOptions.Text = _textProvider.GetInstance(_options.TextOptions.Strategy)
             .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));

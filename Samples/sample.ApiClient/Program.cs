@@ -23,11 +23,10 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddWonderfulCaptcha(options =>
 {
-    options.TextOptions.TextColor = ColorEnum.Random;
-    options.TextOptions.TextBrush = BrushEnum.Random;
+    options.TextOptions.TextColor = ColorEnum.Black;
+    options.ImageOptions.ImageBackgroundColor = ColorEnum.Red;
     options.NoiseOptions.OilPaintLevel = 0;
     options.NoiseOptions.SaltAndPepperDensityPercent = 1;
-
 }).UseInMemoryCacheProvider(builder.Services);
 
 
