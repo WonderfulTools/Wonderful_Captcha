@@ -4,18 +4,24 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId />
+    <PackageId>ASA.Wonderful.WonderfulCaptcha</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>WonderfulCaptcha</Title>
+    <Description>WonderfulCaptcha is a NuGet package designed to help developers implement a user-friendly and secure captcha solution in their applications. This package provides the necessary tools and functionalities to integrate captchas into web forms or other interfaces, helping to prevent spam, bots, and other unwanted automated activities. With WonderfulCaptcha, developers can enhance the security and usability of their applications by adding an effective and customizable captcha system.</Description>
+    <Version>1.0.0</Version>
+    <Authors>ASA</Authors>
+    <Product>WonderfulCaptcha</Product>
+    <Copyright>MIT</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/behdadkd/Wonderful_Captcha</RepositoryUrl>
+    <PackageTags>Captcha,TextCaptcha</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
 	<PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
 	<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Cache\Cache.csproj" />
   </ItemGroup>
 
 
