@@ -27,19 +27,6 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         _imageGenerator = imageGenerator;
     }
 
-    public CaptchaResult Generate(CaptchaOptions options = default!)
-    {
-        var key = Guid.NewGuid().ToString();
-
-        _options.TextOptions.Text = _textProvider.GetInstance(_options.TextOptions.Strategy)
-            .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));
-
-        _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Text), _options.CacheOptions.CacheExpirationTime);
-
-        var image = _imageGenerator.GenerateImageAsync();
-        return new CaptchaResult(key, image.Result);
-    }
-
     public async Task<CaptchaResult> GenerateAsync(Action<CaptchaOptions> options = default!, CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
