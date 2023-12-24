@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>ASA.Wonderful.WonderfulCaptcha</PackageId>
+    <PackageId>WonderfulCaptcha</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>WonderfulCaptcha</Title>
     <Description>WonderfulCaptcha is a NuGet package designed to help developers implement a user-friendly and secure captcha solution in their applications. This package provides the necessary tools and functionalities to integrate captchas into web forms or other interfaces, helping to prevent spam, bots, and other unwanted automated activities. With WonderfulCaptcha, developers can enhance the security and usability of their applications by adding an effective and customizable captcha system.</Description>

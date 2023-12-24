@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>ASA.Wonderful.WonderfulCaptcha.Cache.Redis</PackageId>
+    <PackageId>WonderfulCaptcha.Cache.Redis</PackageId>
     <Version>7.0.0</Version>
     <Title>WonderfulCaptcha.Cache.Redis</Title>
     <Authors>ASA</Authors>

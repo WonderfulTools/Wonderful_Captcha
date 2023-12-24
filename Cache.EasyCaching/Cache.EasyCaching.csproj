@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>ASA.Wonderful.WonderfulCaptcha.Cache.EasyCaching</PackageId>
+    <PackageId>WonderfulCaptcha.Cache.EasyCaching</PackageId>
     <Version>7.0.0</Version>
     <Title>WonderfulCaptcha.Cache.EasyCaching</Title>
     <Authors>ASA</Authors>
