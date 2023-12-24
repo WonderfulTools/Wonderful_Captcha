@@ -2,6 +2,6 @@
 
 public interface IImageGenerator
 {
-    public Task<string> GenerateImageAsync(CancellationToken cancellationToken);
+    public Task<string> GenerateImageAsync(CancellationToken cancellationToken = default!);
 }
 

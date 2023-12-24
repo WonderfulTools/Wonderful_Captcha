@@ -29,7 +29,15 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
 
     public CaptchaResult Generate(CaptchaOptions options = default!)
     {
-        throw new NotImplementedException();
+        var key = Guid.NewGuid().ToString();
+
+        _options.TextOptions.Text = _textProvider.GetInstance(_options.TextOptions.Strategy)
+            .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));
+
+        _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Text), _options.CacheOptions.CacheExpirationTime);
+
+        var image = _imageGenerator.GenerateImageAsync();
+        return new CaptchaResult(key, image.Result);
     }
 
     public async Task<CaptchaResult> GenerateAsync(CaptchaOptions options = default!, CancellationToken cancellationToken = default)
@@ -49,14 +57,14 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     {
         var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
         _cacheProvider.RemoveAsync(key);
-        return _cryptoProvider.Decrypt(cachedValue) == value;
+        return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
         var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
         await _cacheProvider.RemoveAsync(key, cancellationToken);
-        return _cryptoProvider.Decrypt(cachedValue).ToLower() == value.ToLower();
+        return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
 }
 

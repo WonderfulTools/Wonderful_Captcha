@@ -21,14 +21,15 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 
 builder.Services.AddMemoryCache();
 
-builder.Services.AddWonderfulCaptcha(builder.Configuration, options =>
+builder.Services.AddWonderfulCaptcha(options =>
 {
     options.TextOptions.TextColor = ColorEnum.Random;
     options.TextOptions.TextBrush = BrushEnum.Random;
     options.NoiseOptions.OilPaintLevel = 0;
     options.NoiseOptions.SaltAndPepperDensityPercent = 1;
-})
-.UseInMemoryCacheProvider(builder.Services);
+
+}).UseInMemoryCacheProvider(builder.Services);
+
 
 var app = builder.Build();
 
