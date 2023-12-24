@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Core.Utils;
+using Microsoft.Extensions.DependencyInjection;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
@@ -8,6 +9,7 @@ public static class CaptchaServiceCollectionExtensions
 {
     public static IWonderfulCaptchaBuilder AddWonderfulCaptcha(this IServiceCollection services, Action<CaptchaOptions>? options = null)
     {
+        services.AddTransient(typeof(Lazy<>), typeof(Lazier<>));
         services.AddScoped<IWonderfulCaptchaService, WonderfulCaptchaService>();
         services.AddScoped<IContentWriter, ContentWriter>();
         services.AddScoped<IFilterEngine, FilterEngine>();
