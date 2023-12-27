@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Cache.InMemory\Cache.InMemory.csproj" />
-    <ProjectReference Include="..\..\Cache.Redis\Cache.Redis.csproj" />
+    <ProjectReference Include="..\..\Src\Cache.InMemory\Cache.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
