@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>WonderfulCaptcha.Cache.EasyCaching</PackageId>
+    <Version>7.0.0</Version>
+    <Title>WonderfulCaptcha.Cache.EasyCaching</Title>
+    <Authors>ASA</Authors>
+    <Description>EasyCaching integration for Wonderful Captcha</Description>
+    <Copyright>MIT</Copyright>
+    <RepositoryUrl>https://github.com/behdadkd/Wonderful_Captcha</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EasyCaching.Core" Version="1.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
