@@ -15,7 +15,7 @@ public static class CaptchaServiceCollectionExtensions
         services.AddScoped<ICryptoProvider, SHA256CryptoEngine>();
         services.AddScoped<ITextProvider, TextFactory>();
         services.AddScoped<IImageGenerator, ImageGenerator>();
-        services.Configure(options);
+        services.Configure(options ?? (o => new CacheOptions()));
         return new WonderfulCaptchaBuilder();
     }
 }
