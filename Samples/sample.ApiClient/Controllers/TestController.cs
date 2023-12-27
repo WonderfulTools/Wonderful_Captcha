@@ -18,7 +18,6 @@ namespace sample.ApiClient.Controllers
         {
             var value = await _wonderfulCaptchaService.GenerateAsync(options =>
             {
-                options.TextOptions.TextColor = ColorEnum.Green;
             }, cancellationToken: cancellationToken);
             return Ok(value);
         }
