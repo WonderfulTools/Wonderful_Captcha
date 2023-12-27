@@ -33,7 +33,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     {
         var key = Guid.NewGuid().ToString();
 
-        options.Invoke(_options);
+        if (options is not null)
+            options.Invoke(_options);
 
         _options.TextOptions.Text = _textProvider.Value.GetInstance(_options.TextOptions.Strategy)
             .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min,
