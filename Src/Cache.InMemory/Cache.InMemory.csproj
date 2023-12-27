@@ -4,14 +4,16 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>WonderfulCaptcha.Cache.InMemory</PackageId>
+    <PackageId>WonderfulTools.WonderfulCaptcha.Cache.InMemory</PackageId>
     <Version>7.0.0</Version>
     <Title>WonderfulCaptcha.Cache.InMemory</Title>
-    <Authors>ASA</Authors>
+    <Authors>WonderfulTools</Authors>
     <Description>In Memory Caching integration for Wonderful Captcha</Description>
     <Copyright>MIT</Copyright>
     <RepositoryUrl>https://github.com/behdadkd/Wonderful_Captcha</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Company>WonderfulTools</Company>
+    <Product>WonderfulCaptcha.Cache.InMemory</Product>
   </PropertyGroup>
 
   <ItemGroup>
