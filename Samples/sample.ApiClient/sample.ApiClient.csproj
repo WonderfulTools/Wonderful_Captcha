@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Cache.InMemory\Cache.InMemory.csproj" />
-    <ProjectReference Include="..\..\Cache.Redis\Cache.Redis.csproj" />
+    <ProjectReference Include="..\..\Src\Cache.InMemory\Cache.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
