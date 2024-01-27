@@ -4,14 +4,30 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>WonderfulTools.WonderfulCaptcha.Cache.InMemory</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>WonderfulCaptcha.Cache.InMemory</Title>
+    <Authors>WonderfulTools</Authors>
+    <Company>WonderfulTools</Company>
+    <Product>WonderfulCaptcha.Cache.InMemory</Product>
+    <Description>use in memory cache in wonderful captcha</Description>
+    <PackageIcon>wcicon.png</PackageIcon>
+    <PackageTags>InMemory</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Desktop\wcicon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Core\Core.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>
