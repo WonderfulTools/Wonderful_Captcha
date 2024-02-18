@@ -4,6 +4,7 @@ public class TextOptions
 {
     public StrategyEnum Strategy { get; set; } = StrategyEnum.Character;
     public string Text { get; set; } = default!;
+    public string Value { get; set; } = default!;
     public ColorEnum TextColor { get; set; } = ColorEnum.Random;
     public string TextColorHex { get; set; } = default!;
     public FontEnum TextFont { get; set; } = FontEnum.Random;

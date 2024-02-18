@@ -20,14 +20,19 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 }));
 
 builder.Services.AddMemoryCache();
-
-builder.Services.AddWonderfulCaptcha(options =>
+builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.TextOptions.TextColor = ColorEnum.Black;
-    options.NoiseOptions.OilPaintLevel = 1;
-    options.NoiseOptions.SaltAndPepperDensityPercent = 1;
-}).UseInMemoryCacheProvider(builder.Services);
-
+    options.Configuration = "localhost:6379";
+    options.InstanceName = "MyRedisInstance";
+});
+builder.Services.AddWonderfulCaptcha(o =>
+{
+    o.UseInMemoryCacheProvider();
+});
+builder.Services.AddWonderfulCaptcha(o =>
+{
+    o.UseCustomCacheProvider<MyCacheProvider>();
+});
 
 var app = builder.Build();
 

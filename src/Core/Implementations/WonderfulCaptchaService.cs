@@ -34,10 +34,12 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         if (options is not null)
             options.Invoke(_options);
 
-        _options.TextOptions.Text = _textProvider.GetInstance(_options.TextOptions.Strategy)
+        var textResult = _textProvider.GetInstance(_options.TextOptions.Strategy)
             .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));
+        _options.TextOptions.Text = textResult.Text;
+        _options.TextOptions.Value = textResult.Value;
 
-        await _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Text), _options.CacheOptions.CacheExpirationTime, cancellationToken);
+        await _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Value), _options.CacheOptions.CacheExpirationTime, cancellationToken);
 
         var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
         return new CaptchaResult(key, image);

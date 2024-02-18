@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using WonderfulCaptcha.Cache;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;
@@ -6,7 +8,7 @@ using WonderfulCaptcha.Text;
 namespace WonderfulCaptcha;
 public static class CaptchaServiceCollectionExtensions
 {
-    public static IWonderfulCaptchaBuilder AddWonderfulCaptcha(this IServiceCollection services, Action<CaptchaOptions>? options = null)
+    public static IServiceCollection AddWonderfulCaptcha(this IServiceCollection services, Action<CaptchaOptions>? options = null)
     {
         services.AddScoped<IWonderfulCaptchaService, WonderfulCaptchaService>();
         services.AddScoped<IContentWriter, ContentWriter>();
@@ -15,16 +17,16 @@ public static class CaptchaServiceCollectionExtensions
         services.AddScoped<ICryptoProvider, SHA256CryptoEngine>();
         services.AddScoped<ITextProvider, TextFactory>();
         services.AddScoped<IImageGenerator, ImageGenerator>();
+
+        var captchaOptions = new CaptchaOptions();
+        options.Invoke(captchaOptions);
+
+        services.TryAddSingleton(typeof(ICacheProvider), captchaOptions.CacheOptions.CacheProvider);
+
+
         services.Configure(options ?? (o => new CacheOptions()));
-        return new WonderfulCaptchaBuilder();
+
+        return services;
     }
 }
 
-public interface IWonderfulCaptchaBuilder
-{
-
-}
-public class WonderfulCaptchaBuilder : IWonderfulCaptchaBuilder
-{
-
-}
