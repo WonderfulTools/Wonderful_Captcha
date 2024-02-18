@@ -5,11 +5,14 @@ Wonderful Captcha is a simple and customizable CAPTCHA (Completely Automated Pub
 
 ## Features
 
+
+
+
 - Generate custom CAPTCHA images with random text.
 - Easily integrate CAPTCHA functionality into your .NET web forms or applications.
 - Customizable CAPTCHA image size, font, text color, background color, and noise level.
 
-## Usage
+# Usage
 
 1- You can install Wonderful Captcha via NuGet Package Manager:
 
@@ -50,15 +53,24 @@ public class TestController : ControllerBase
 var result = await _wonderfulCaptchaService.VerifyAsync(key, value, cancellationToken);
 ```
 
-## Caching 
+Here's an improved version of your package markdown file:
 
-1- **InMemoryCache**
+# Caching
 
-you can use difrent cache providers like **InMemoryCache** 
-```
+When using WonderfulCaptcha, you have the flexibility to choose from various cache providers to optimize performance and resource management.
+
+## InMemoryCache
+
+The `InMemoryCache` provider is suitable for smaller applications or scenarios where you prefer an in-memory caching mechanism.
+
+### Installation
+
+```bash
 Install-Package WonderfulTools.WonderfulCaptcha.Cache.InMemory
 ```
-usage :
+
+### Usage
+
 ```csharp
 builder.Services.AddMemoryCache();
 builder.Services.AddWonderfulCaptcha(o =>
@@ -66,13 +78,19 @@ builder.Services.AddWonderfulCaptcha(o =>
     o.UseInMemoryCacheProvider();
 });
 ```
-2- **RedisCache**
 
-you can use difrent cache providers like **RedisCache** 
-```
+## RedisCache
+
+For larger applications or distributed environments, `RedisCache` is an efficient choice due to its scalability and robustness.
+
+### Installation
+
+```bash
 Install-Package WonderfulTools.WonderfulCaptcha.Cache.Redis
 ```
-usage :
+
+### Usage
+
 ```csharp
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -84,20 +102,31 @@ builder.Services.AddWonderfulCaptcha(o =>
     o.UseRedisCacheProvider();
 });
 ```
-3-Your Own cache Provider 
-you should impliment ICacheProvider and register like below :
- ```csharp
- 
+
+## Custom Cache Provider
+
+If you have specific caching requirements or wish to integrate with a different caching system, you can implement your own cache provider by implementing the `ICacheProvider` interface.
+
+### Usage
+
+1. Implement your custom cache provider:
+
+```csharp
 public class MyCacheProvider : ICacheProvider
 {
-    your Implimentation ....
+    // Your Implementation Here
 }
+```
 
+2. Register your custom cache provider:
+
+```csharp
 builder.Services.AddWonderfulCaptcha(o =>
 {
     o.UseCustomCacheProvider<MyCacheProvider>();
 });
- ```
+```
 
+By providing these options, WonderfulCaptcha ensures compatibility with various caching strategies, allowing you to optimize your application's performance according to your specific needs.
 
- 
+In this version, I've organized the content into clear sections for each cache provider, provided clear installation and usage instructions, and improved the overall readability of the document. Additionally, I've added more descriptive text to explain the benefits and use cases of each cache provider.
