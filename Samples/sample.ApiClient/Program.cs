@@ -20,18 +20,9 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 }));
 
 builder.Services.AddMemoryCache();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "localhost:6379";
-    options.InstanceName = "MyRedisInstance";
-});
 builder.Services.AddWonderfulCaptcha(o =>
 {
     o.UseInMemoryCacheProvider();
-});
-builder.Services.AddWonderfulCaptcha(o =>
-{
-    o.UseCustomCacheProvider<MyCacheProvider>();
 });
 
 var app = builder.Build();

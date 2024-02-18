@@ -27,9 +27,3 @@ public class BehdadProvider : ICacheProvider
         await Console.Out.WriteLineAsync($"behdad set : {cacheKey}");
     }
 }
-
-
-public class MyCacheProvider : ICacheProvider
-{
-    your Implimentation....
-}

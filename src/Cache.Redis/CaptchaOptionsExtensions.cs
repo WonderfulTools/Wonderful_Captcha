@@ -1,6 +1,4 @@
-﻿using WonderfulCaptcha.Cache.Redis;
-
-namespace WonderfulCaptcha.Cache.InMemory;
+﻿namespace WonderfulCaptcha.Cache.Redis;
 public static class CaptchaOptionsExtensions
 {
     //public static void UseRedisCacheProvider(this IWonderfulCaptchaBuilder builder, IServiceCollection services)
