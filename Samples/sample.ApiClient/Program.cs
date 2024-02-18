@@ -24,7 +24,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddWonderfulCaptcha(options =>
 {
     options.TextOptions.TextColor = ColorEnum.Black;
-    options.NoiseOptions.OilPaintLevel = 5;
+    options.NoiseOptions.OilPaintLevel = 1;
     options.NoiseOptions.SaltAndPepperDensityPercent = 1;
 }).UseInMemoryCacheProvider(builder.Services);
 
