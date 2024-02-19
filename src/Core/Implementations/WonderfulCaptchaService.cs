@@ -48,6 +48,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public bool Verify(string key, string value)
     {
         var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
+        if (cachedValue is null)
+            return false;
         _cacheProvider.RemoveAsync(key);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
@@ -55,6 +57,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
         var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        if (cachedValue is null)
+            return false;
         await _cacheProvider.RemoveAsync(key, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
