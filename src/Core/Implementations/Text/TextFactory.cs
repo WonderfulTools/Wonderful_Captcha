@@ -6,6 +6,8 @@ public class TextFactory : ITextProvider
         {
             StrategyEnum.Digits => new TextDigitStrategy(),
             StrategyEnum.Character => new TextCharacterStrategy(),
+            StrategyEnum.SumOfTwoNumbersStrategy => new SumOfTwoNumbersStrategy(),
+            StrategyEnum.SimpleMathStrategy => new SimpleMathStrategy(),
             _ => throw new InvalidOperationException($"Service of type {type} is not implemented."),
         };
 }

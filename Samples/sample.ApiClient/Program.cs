@@ -22,6 +22,9 @@ builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 builder.Services.AddMemoryCache();
 builder.Services.AddWonderfulCaptcha(o =>
 {
+    o.TextOptions.Strategy = StrategyEnum.SimpleMathStrategy;
+    o.NoiseOptions.MaxLineNumbers = 0;
+    o.NoiseOptions.OilPaintLevel = 2;
     o.UseInMemoryCacheProvider();
 });
 
