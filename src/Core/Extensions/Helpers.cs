@@ -1,7 +1,7 @@
 ﻿namespace WonderfulCaptcha;
 public static class Helpers
 {
-    private static readonly Random _random = new Random();
+    private static readonly Random _random = new();
     public static int GetRandomNumberBetween(int min, int max)
     {
         if (min >= max + 1)

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using WonderfulCaptcha.Cache;
+﻿using WonderfulCaptcha.Cache;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
 using WonderfulCaptcha.Text;

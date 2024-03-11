@@ -1,3 +1,5 @@
+using SixLabors.ImageSharp.PixelFormats;
+
 namespace WonderfulCaptcha.Images;
 
 /// <summary>

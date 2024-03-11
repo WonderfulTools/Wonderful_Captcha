@@ -1,5 +1,5 @@
-using Microsoft.Extensions.Options;
-using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace WonderfulCaptcha.Images;
 

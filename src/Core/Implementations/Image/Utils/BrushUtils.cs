@@ -1,5 +1,3 @@
-using SixLabors.ImageSharp.Drawing.Processing;
-
 namespace WonderfulCaptcha.Images;
 
 public class BrushUtils

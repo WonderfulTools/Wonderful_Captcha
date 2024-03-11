@@ -21,9 +21,9 @@ public class SHA256CryptoEngine : ICryptoProvider
 
             ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-            using (MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(text).Skip(16).ToArray()))
-            using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-            using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+            using (MemoryStream msDecrypt = new(Convert.FromBase64String(text).Skip(16).ToArray()))
+            using (CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read))
+            using (StreamReader srDecrypt = new(csDecrypt))
             {
                 return srDecrypt.ReadToEnd();
             }
@@ -40,10 +40,10 @@ public class SHA256CryptoEngine : ICryptoProvider
 
             ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
-            using (MemoryStream msEncrypt = new MemoryStream())
+            using (MemoryStream msEncrypt = new())
             {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                using (CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write))
+                using (StreamWriter swEncrypt = new(csEncrypt))
                     swEncrypt.Write(text);
 
                 return Convert.ToBase64String(aesAlg.IV.Concat(msEncrypt.ToArray()).ToArray());

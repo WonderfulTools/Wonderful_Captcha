@@ -1,4 +1,6 @@
-﻿namespace WonderfulCaptcha.Images;
+﻿using SixLabors.ImageSharp.PixelFormats;
+
+namespace WonderfulCaptcha.Images;
 
 public class ImageGenerator : IImageGenerator
 {
