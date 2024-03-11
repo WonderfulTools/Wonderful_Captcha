@@ -130,3 +130,13 @@ builder.Services.AddWonderfulCaptcha(o =>
 By providing these options, WonderfulCaptcha ensures compatibility with various caching strategies, allowing you to optimize your application's performance according to your specific needs.
 
 In this version, I've organized the content into clear sections for each cache provider, provided clear installation and usage instructions, and improved the overall readability of the document. Additionally, I've added more descriptive text to explain the benefits and use cases of each cache provider.
+
+## Strategies
+
+When creating, various strategies can be employed to achieve different outcomes. Below are examples of some strategies:
+
+| Strategy              | Result              | Example    |
+|-----------------------|---------------------|------------|
+| Digits                | Numeric values only | 321433     |
+| Character             | Alphanumeric values | xV3Qe      |
+| SumOfTwoNumbers       | Sum of two numbers  | 13 + 2     |
