@@ -25,6 +25,7 @@ builder.Services.AddWonderfulCaptcha(o =>
     o.TextOptions.Strategy = StrategyEnum.SumOfTwoNumbersStrategy;
     o.NoiseOptions.MaxLineNumbers = 0;
     o.NoiseOptions.OilPaintLevel = 2;
+    o.CacheOptions.Prefix = "behdad";
     o.UseInMemoryCacheProvider();
 });
 

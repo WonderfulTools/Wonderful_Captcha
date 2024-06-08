@@ -38,7 +38,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         _options.TextOptions.Text = textResult.Text;
         _options.TextOptions.Value = textResult.Value;
 
-        await _cacheProvider.SetAsync(key, _cryptoProvider.Encrypt(_options.TextOptions.Value), _options.CacheOptions.CacheExpirationTime, cancellationToken);
+        await _cacheProvider.SetAsync(GetCacheWithPrefix(key), _cryptoProvider.Encrypt(_options.TextOptions.Value), _options.CacheOptions.CacheExpirationTime, cancellationToken);
 
         var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
         return new CaptchaResult(key, image);
@@ -46,20 +46,24 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
 
     public bool Verify(string key, string value)
     {
-        var cachedValue = _cacheProvider.GetAsync<string>(key).Result;
+        var cacheKey = GetCacheWithPrefix(key);
+        var cachedValue = _cacheProvider.GetAsync<string>(cacheKey).Result;
         if (cachedValue is null)
             return false;
-        _cacheProvider.RemoveAsync(key);
+        _cacheProvider.RemoveAsync(cacheKey);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
     {
-        var cachedValue = await _cacheProvider.GetAsync<string>(key, cancellationToken);
+        var cacheKey = GetCacheWithPrefix(key);
+        var cachedValue = await _cacheProvider.GetAsync<string>(cacheKey, cancellationToken);
         if (cachedValue is null)
             return false;
-        await _cacheProvider.RemoveAsync(key, cancellationToken);
+        await _cacheProvider.RemoveAsync(cacheKey, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
     }
+
+    private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
 }
 
