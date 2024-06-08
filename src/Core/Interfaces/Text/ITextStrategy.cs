@@ -10,6 +10,6 @@ public interface ITextStrategy
     /// </summary>
     /// <param name="len">Len of desired text</param>
     /// <returns>text with given len</returns>
-    TextStrategyResultDto GetText(int len);
+    TextProviderResultDto GetText(int len);
 }
 
