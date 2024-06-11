@@ -1,5 +1,4 @@
 using SixLabors.Fonts;
-using WonderfulCaptcha.Images.Settings;
 
 namespace WonderfulCaptcha.Images;
 
@@ -7,7 +6,7 @@ public static class SizeUtils
 {
     public static (int Width, int Height) GetDynamicSize(float fontSize, CaptchaOptions options)
     {
-        Font font = new(SystemFonts.Get(FontSettings.DefaultFont), fontSize, FontSettings.DefaultFontStyle);
+        Font font = FontUtils.GetFont(options.TextOptions.TextFont, (int)fontSize, options.TextOptions.TextFontStyle);
         var charSize = TextMeasurer.MeasureSize("A", new SixLabors.Fonts.TextOptions(font));
 
         var width =
