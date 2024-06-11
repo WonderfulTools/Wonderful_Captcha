@@ -30,6 +30,9 @@
     <None Update="Fonts\ARIAL.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Fonts\TARSICA.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 

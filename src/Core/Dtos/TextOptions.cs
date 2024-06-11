@@ -7,7 +7,7 @@ public class TextOptions
     public string Value { get; set; } = default!;
     public ColorEnum TextColor { get; set; } = ColorEnum.Random;
     public string TextColorHex { get; set; } = default!;
-    public FontEnum TextFont { get; set; } = FontEnum.Random;
+    public FontEnum TextFont { get; set; } = FontEnum.Arial;
     public FontStyleEnum TextFontStyle { get; set; } = FontStyleEnum.Random;
     public BrushEnum TextBrush { get; set; } = BrushEnum.Solid;
     public (int Min, int Max) TextLen { get; set; } = (5, 5);

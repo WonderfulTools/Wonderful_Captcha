@@ -13,11 +13,12 @@ public class FontUtils
     public static FontFamily GetFontFamily(FontEnum font)
     {
         FontCollection fontCollection = new();
-        FontFamily ArialFontFamily = fontCollection.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Fonts\ARIAL.TTF");
+        string fontsDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Fonts\";
 
         return font switch
         {
-            FontEnum.Arial => ArialFontFamily,
+            FontEnum.Arial => fontCollection.Add(fontsDirectory + @"ARIAL.TTF"),
+            FontEnum.Tarsica => fontCollection.Add(fontsDirectory + @"TARSICA.TTF"),
             _ => GetFontFamily((FontEnum)Random.Next(8))
         };
     }
