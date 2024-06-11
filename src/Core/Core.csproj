@@ -26,6 +26,12 @@
 	<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Fonts\ARIAL.TTF">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 
 
