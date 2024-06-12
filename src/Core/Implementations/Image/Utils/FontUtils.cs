@@ -1,5 +1,4 @@
 using SixLabors.Fonts;
-using System.Reflection;
 
 namespace WonderfulCaptcha.Images;
 
@@ -12,15 +11,16 @@ public class FontUtils
 
     public static FontFamily GetFontFamily(FontEnum font)
     {
-        FontCollection fontCollection = new();
-        string fontsDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Fonts");
+        //FontCollection fontCollection = new();
+        //string fontsDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Fonts");
 
-        return font switch
-        {
-            FontEnum.Arial => fontCollection.Add(Path.Combine(fontsDirectory, @"ARIAL.TTF")),
-            FontEnum.Tarsica => fontCollection.Add(Path.Combine(fontsDirectory, @"TARSICA.TTF")),
-            _ => GetFontFamily((FontEnum)Random.Next(8))
-        };
+        //return font switch
+        //{
+        //    FontEnum.Arial => fontCollection.Add(Path.Combine(fontsDirectory, @"ARIAL.TTF")),
+        //    FontEnum.Tarsica => fontCollection.Add(Path.Combine(fontsDirectory, @"TARSICA.TTF")),
+        //    _ => GetFontFamily((FontEnum)Random.Next(8))
+        //};
+        return SystemFonts.Get("Arial");
     }
 
 
