@@ -52,6 +52,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             return false;
         _cacheProvider.RemoveAsync(cacheKey);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
+
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
