@@ -1,9 +1,4 @@
-﻿using WonderfulCaptcha.Cache;
-using WonderfulCaptcha.Crypto;
-using WonderfulCaptcha.Images;
-using WonderfulCaptcha.Text;
-
-namespace WonderfulCaptcha;
+﻿namespace WonderfulCaptcha;
 
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
@@ -63,6 +58,7 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             return false;
         await _cacheProvider.RemoveAsync(cacheKey, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
+        //
     }
 
     private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
