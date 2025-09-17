@@ -20,4 +20,10 @@
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="B-NAZANIN.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

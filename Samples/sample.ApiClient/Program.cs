@@ -1,3 +1,4 @@
+﻿using SixLabors.Fonts;
 using WonderfulCaptcha;
 using WonderfulCaptcha.Cache.InMemory;
 
@@ -6,6 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
+
+var collection = new FontCollection();
+
+// Add the font from file
+FontFamily family = collection.Add("B-NAZANIN.TTF");
+
+// Create a font instance
+Font font = family.CreateFont(16, FontStyle.Regular);
+
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,6 +39,7 @@ builder.Services.AddWonderfulCaptcha(o =>
     o.NoiseOptions.MaxLineNumbers = 0;
     o.NoiseOptions.OilPaintLevel = 2;
     o.CacheOptions.Prefix = "behdad";
+    o.TextOptions.FontFamily = font;
     o.UseInMemoryCacheProvider();
 });
 
