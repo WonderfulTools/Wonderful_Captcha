@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0007: Use implicit type
+dotnet_diagnostic.IDE0007.severity = none

@@ -34,7 +34,7 @@ public class ContentWriter : IContentWriter
 
     private void PutChar(Image<Rgba32> image, DrawingOptions drawingOptions, int fontSize, string c, PointF position)
     {
-        var font = FontUtils.GetFont(_captchaOptions.TextOptions.TextFont, fontSize, _captchaOptions.TextOptions.TextFontStyle);
+        var font = FontUtils.GetFont(fontSize, _captchaOptions.TextOptions.TextFontStyle, _captchaOptions.TextOptions.FontFamily);
         var color = _captchaOptions.TextOptions.TextColorHex is not null ?
             ColorUtils.GetColor(_captchaOptions.TextOptions.TextColorHex) :
             ColorUtils.GetColor(_captchaOptions.TextOptions.TextColor);
@@ -48,7 +48,7 @@ public class ContentWriter : IContentWriter
         if (!_captchaOptions.TextOptions.TextShadow)
             return;
 
-        var font = FontUtils.GetFont(_captchaOptions.TextOptions.TextFont, fontSize, _captchaOptions.TextOptions.TextFontStyle);
+        var font = FontUtils.GetFont(fontSize, _captchaOptions.TextOptions.TextFontStyle, _captchaOptions.TextOptions.FontFamily);
         var brush = BrushUtils.GetBrush(_captchaOptions.TextOptions.TextBrush, Color.LightSlateGray);
         var shadowPosition = new PointF(position.X - 5, position.Y - 5);
 
@@ -69,7 +69,7 @@ public class ContentWriter : IContentWriter
 
     private PointF GetCharPosition(int fontSize, int charIndex)
     {
-        var charWidth = FontUtils.GetCharWidth(fontSize);
+        var charWidth = FontUtils.GetCharWidth(_captchaOptions.TextOptions.FontFamily, fontSize);
 
         var randomRangeX = _captchaOptions.ImageOptions.CharPositionVarietyRange.Width;
         var randomRangeY = _captchaOptions.ImageOptions.CharPositionVarietyRange.Height;

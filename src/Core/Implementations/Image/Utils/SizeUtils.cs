@@ -6,7 +6,7 @@ public static class SizeUtils
 {
     public static (int Width, int Height) GetDynamicSize(float fontSize, CaptchaOptions options)
     {
-        Font font = FontUtils.GetFont(options.TextOptions.TextFont, (int)fontSize, options.TextOptions.TextFontStyle);
+        var font = FontUtils.GetFont(  (int)fontSize, options.TextOptions.TextFontStyle, options.TextOptions.FontFamily);
         var charSize = TextMeasurer.MeasureSize("A", new SixLabors.Fonts.TextOptions(font));
 
         var width =
