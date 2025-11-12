@@ -1,4 +1,9 @@
-﻿namespace WonderfulCaptcha;
+﻿using WonderfulCaptcha.Cache;
+using WonderfulCaptcha.Crypto;
+using WonderfulCaptcha.Images;
+using WonderfulCaptcha.Text;
+
+namespace WonderfulCaptcha;
 
 public class WonderfulCaptchaService : IWonderfulCaptchaService
 {
