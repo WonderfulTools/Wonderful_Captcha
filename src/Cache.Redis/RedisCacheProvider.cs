@@ -65,7 +65,7 @@ public class RedisCacheProvider : ICacheProvider
             return null;
         }
 
-        var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+        var json = JsonConvert.SerializeObject(item);
         return Encoding.UTF8.GetBytes(json);
     }
 }
