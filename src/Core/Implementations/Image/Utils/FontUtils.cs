@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using SixLabors.Fonts;
 
 namespace WonderfulCaptcha.Images;
@@ -5,22 +6,27 @@ namespace WonderfulCaptcha.Images;
 public class FontUtils
 {
     private static readonly Random Random = new();
+    private static readonly ConcurrentDictionary<FontEnum, FontFamily> FontFamilies = new();
 
     public static Font GetFont(FontEnum fontFamily, int fontSize, FontStyleEnum style)
         => new(GetFontFamily(fontFamily), fontSize, GetFontStyle(style));
 
     public static FontFamily GetFontFamily(FontEnum font)
-    {
-        //FontCollection fontCollection = new();
-        //string fontsDirectory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Fonts");
+        => font switch
+        {
+            FontEnum.Arial => FontFamilies.GetOrAdd(font, _ => LoadFontFamily("ARIAL.TTF")),
+            FontEnum.Tarsica => FontFamilies.GetOrAdd(font, _ => LoadFontFamily("TARSICA.TTF")),
+            _ => GetFontFamily((FontEnum)Random.Next(1, 3)),
+        };
 
-        //return font switch
-        //{
-        //    FontEnum.Arial => fontCollection.Add(Path.Combine(fontsDirectory, @"ARIAL.TTF")),
-        //    FontEnum.Tarsica => fontCollection.Add(Path.Combine(fontsDirectory, @"TARSICA.TTF")),
-        //    _ => GetFontFamily((FontEnum)Random.Next(8))
-        //};
-        return SystemFonts.Get("Arial");
+    private static FontFamily LoadFontFamily(string fileName)
+    {
+        var fontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", fileName);
+        if (!File.Exists(fontPath))
+            return SystemFonts.Get("Arial");
+
+        var fontCollection = new FontCollection();
+        return fontCollection.Add(fontPath);
     }
 
 
