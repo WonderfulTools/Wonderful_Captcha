@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>WonderfulCaptcha</Title>
     <Description>WonderfulCaptcha designed to help developers implement a user-friendly and secure captcha solution in their applications. This package provides the necessary tools and functionalities to integrate captchas into web forms or other interfaces, helping to prevent spam, bots, and other unwanted automated activities. With WonderfulCaptcha, developers can enhance the security and usability of their applications by adding an effective and customizable captcha system.</Description>
-    <Version>1.0.0</Version>
+    <Version>10.3.0</Version>
     <Authors>WonderfulTools</Authors>
     <Product>WonderfulCaptcha</Product>
     <Copyright></Copyright>
@@ -27,20 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\ARIAL.TTF" />
-    <None Remove="Fonts\TARSICA.TTF" />
-    <Content Include="Fonts\ARIAL.TTF">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackagePath>contentFiles\any\any\Fonts\ARIAL.TTF</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </Content>
-    <Content Include="Fonts\TARSICA.TTF">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackagePath>contentFiles\any\any\Fonts\TARSICA.TTF</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </Content>
+    <None Remove="Fonts\*.TTF" />
+    <EmbeddedResource Include="Fonts\*.TTF" LogicalName="WonderfulCaptcha.Fonts.%(Filename)%(Extension)" />
   </ItemGroup>
 
 

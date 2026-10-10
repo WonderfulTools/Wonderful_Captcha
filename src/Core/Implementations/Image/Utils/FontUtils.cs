@@ -21,12 +21,12 @@ public class FontUtils
 
     private static FontFamily LoadFontFamily(string fileName)
     {
-        var fontPath = Path.Combine(AppContext.BaseDirectory, "Fonts", fileName);
-        if (!File.Exists(fontPath))
-            return SystemFonts.Get("Arial");
+        // Fonts are embedded in the assembly so no OS fonts are required (e.g. Alpine containers).
+        var resourceName = $"WonderfulCaptcha.Fonts.{fileName}";
+        using var stream = typeof(FontUtils).Assembly.GetManifestResourceStream(resourceName)
+            ?? throw new InvalidOperationException($"Embedded font resource '{resourceName}' not found.");
 
-        var fontCollection = new FontCollection();
-        return fontCollection.Add(fontPath);
+        return new FontCollection().Add(stream);
     }
 
 

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\Cache.InMemory\Cache.InMemory.csproj" />
+    <ProjectReference Include="..\..\src\Cache.InMemory\Cache.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 

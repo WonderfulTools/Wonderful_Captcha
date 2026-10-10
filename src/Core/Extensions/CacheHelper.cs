@@ -4,7 +4,7 @@
 namespace WonderfulCaptcha;
 public static class CacheHelper
 {
-    private static readonly string AvaCachePrefix = "Ava_";
+    private static readonly string AvaCachePrefix = "Captcha_";
     public static readonly Dictionary<string, string> Prefixes = new()
     {
         { "Captcha", $"{AvaCachePrefix}Captcha_" },
