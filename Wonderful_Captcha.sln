@@ -19,6 +19,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cache.EasyCaching", "Src\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.NugetAlpine", "Samples\sample.NugetAlpine\sample.NugetAlpine.csproj", "{031856D0-44F1-6678-884B-8C5BC5686BD9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B3E9C41-2D6A-4F0B-9E15-3C8A1D2F6B70}"
+	ProjectSection(SolutionItems) = preProject
+		Agent.md = Agent.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C4A1F2D8-6E3B-4B7A-8D90-1F5E2A3B4C61}"
+	ProjectSection(SolutionItems) = preProject
+		docs\architecture.md = docs\architecture.md
+		docs\cache-providers.md = docs\cache-providers.md
+		docs\configuration.md = docs\configuration.md
+		docs\extending.md = docs\extending.md
+		docs\getting-started.md = docs\getting-started.md
+		docs\README.md = docs\README.md
+		docs\text-strategies.md = docs\text-strategies.md
+		docs\troubleshooting.md = docs\troubleshooting.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bug-reports", "bug-reports", "{E8D2B6A3-4C1F-4E9A-B7D5-2A6C9F1E3B82}"
+	ProjectSection(SolutionItems) = preProject
+		docs\bug-reports\verify-fails-randomly.md = docs\bug-reports\verify-fails-randomly.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +83,7 @@ Global
 		{0D4571F5-B885-437C-900B-11CEC65C451F} = {5EB33352-F5B4-46D1-B2A4-9FFDBC649815}
 		{A0665C9F-C51B-4490-98EE-245DC9E95C61} = {5EB33352-F5B4-46D1-B2A4-9FFDBC649815}
 		{031856D0-44F1-6678-884B-8C5BC5686BD9} = {4BA18691-C8BF-44DF-8506-AC54A11D4109}
+		{E8D2B6A3-4C1F-4E9A-B7D5-2A6C9F1E3B82} = {C4A1F2D8-6E3B-4B7A-8D90-1F5E2A3B4C61}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50F72AE1-0C31-4A9C-A0BA-51952C82B5AA}

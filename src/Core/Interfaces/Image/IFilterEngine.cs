@@ -4,5 +4,5 @@ namespace WonderfulCaptcha.Images;
 
 public interface IFilterEngine
 {
-    void ApplyFilters(Image<Rgba32> image);
+    void ApplyFilters(Image<Rgba32> image, CaptchaOptions options);
 }

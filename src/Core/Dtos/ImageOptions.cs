@@ -11,4 +11,6 @@ public class ImageOptions
     public int CharSpacing { get; set; } = 10;
     public (int Width, int Height) CharPositionVarietyRange { get; set; } = (15, 15);
     public int Complexity { get; set; } = 0;
+
+    public ImageOptions Clone() => (ImageOptions)MemberwiseClone();
 }

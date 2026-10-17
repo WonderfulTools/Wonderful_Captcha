@@ -16,4 +16,6 @@ public class TextOptions
     public bool TextShadow { get; set; } = false;
     public int TextRotationRange { get; set; } = 12;
     public int TextSkewRange { get; set; } = 10;
+
+    public TextOptions Clone() => (TextOptions)MemberwiseClone();
 }

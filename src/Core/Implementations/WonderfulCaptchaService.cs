@@ -1,7 +1,7 @@
-﻿using WonderfulCaptcha.Cache;
+﻿using WonderfulCaptcha.Text;
+using WonderfulCaptcha.Cache;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
-using WonderfulCaptcha.Text;
 
 namespace WonderfulCaptcha;
 
@@ -26,21 +26,26 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         _imageGenerator = imageGenerator;
     }
 
+    private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
+
     public async Task<CaptchaResult> GenerateAsync(Action<CaptchaOptions> options = default!, CancellationToken cancellationToken = default)
     {
         var key = Guid.NewGuid().ToString();
 
+        // _options is the singleton registered via IOptions and is shared by all concurrent requests.
+        // Work on a private copy so the text/value of this captcha cannot be overwritten by another request.
+        var callOptions = _options.Clone();
         if (options is not null)
-            options.Invoke(_options);
+            options.Invoke(callOptions);
 
-        var textResult = _textProvider.GetInstance(_options.TextOptions.Strategy)
-            .GetText(Helpers.GetRandomNumberBetween(_options.TextOptions.TextLen.Min, _options.TextOptions.TextLen.Max));
-        _options.TextOptions.Text = textResult.Text;
-        _options.TextOptions.Value = textResult.Value;
+        var textResult = _textProvider.GetInstance(callOptions.TextOptions.Strategy)
+            .GetText(Helpers.GetRandomNumberBetween(callOptions.TextOptions.TextLen.Min, callOptions.TextOptions.TextLen.Max));
+        callOptions.TextOptions.Text = textResult.Text;
+        callOptions.TextOptions.Value = textResult.Value;
 
-        await _cacheProvider.SetAsync(GetCacheWithPrefix(key), _cryptoProvider.Encrypt(_options.TextOptions.Value), _options.CacheOptions.CacheExpirationTime, cancellationToken);
+        await _cacheProvider.SetAsync(GetCacheWithPrefix(key), _cryptoProvider.Encrypt(textResult.Value), callOptions.CacheOptions.CacheExpirationTime, cancellationToken);
 
-        var image = await _imageGenerator.GenerateImageAsync(cancellationToken);
+        var image = await _imageGenerator.GenerateImageAsync(callOptions, cancellationToken);
         return new CaptchaResult(key, image);
     }
 
@@ -50,9 +55,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         var cachedValue = _cacheProvider.GetAsync<string>(cacheKey).Result;
         if (cachedValue is null)
             return false;
-        _cacheProvider.RemoveAsync(cacheKey);
+        _cacheProvider.RemoveAsync(cacheKey).GetAwaiter().GetResult();
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
-
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
@@ -63,9 +67,5 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             return false;
         await _cacheProvider.RemoveAsync(cacheKey, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
-        //
     }
-
-    private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
 }
-

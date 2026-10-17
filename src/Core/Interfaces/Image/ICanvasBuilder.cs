@@ -7,5 +7,5 @@ namespace WonderfulCaptcha.Images;
 /// </summary>
 public interface ICanvasBuilder
 {
-    Image<Rgba32> Create();
+    Image<Rgba32> Create(CaptchaOptions options);
 }

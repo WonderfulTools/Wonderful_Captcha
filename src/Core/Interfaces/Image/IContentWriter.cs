@@ -4,5 +4,5 @@ namespace WonderfulCaptcha.Images;
 
 public interface IContentWriter
 {
-    void WriteText(Image<Rgba32> image);
+    void WriteText(Image<Rgba32> image, CaptchaOptions options);
 }
