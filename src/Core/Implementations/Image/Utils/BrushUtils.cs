@@ -2,7 +2,7 @@ namespace WonderfulCaptcha.Images;
 
 public class BrushUtils
 {
-    private static readonly Random Random = new();
+    private static readonly Random Random = Random.Shared;
 
     public static Brush GetBrush(BrushEnum brush, Color color) =>
         brush switch

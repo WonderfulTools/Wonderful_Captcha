@@ -19,12 +19,16 @@ public static class CaptchaServiceCollectionExtensions
         services.AddScoped<IImageGenerator, ImageGenerator>();
 
         var captchaOptions = new CaptchaOptions();
-        options.Invoke(captchaOptions);
+        options?.Invoke(captchaOptions);
+
+        if (captchaOptions.CacheOptions.CacheProvider is null)
+            throw new InvalidOperationException(
+                "No cache provider configured for WonderfulCaptcha. Call e.g. o.UseInMemoryCacheProvider(), o.UseRedisCacheProvider() or o.UseCustomCacheProvider<T>().");
 
         services.TryAddSingleton(typeof(ICacheProvider), captchaOptions.CacheOptions.CacheProvider);
 
 
-        services.Configure(options ?? (o => new CacheOptions()));
+        services.Configure(options ?? (_ => { }));
 
         return services;
     }

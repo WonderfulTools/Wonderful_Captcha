@@ -16,11 +16,11 @@ public class ImageGenerator : IImageGenerator
         _filterEngine = filterEngine;
     }
 
-    public async Task<string> GenerateImageAsync(CancellationToken cancellationToken)
+    public async Task<string> GenerateImageAsync(CaptchaOptions options, CancellationToken cancellationToken)
     {
-        var image = _canvasBuilder.Create();
-        _contentWriter.WriteText(image);
-        _filterEngine.ApplyFilters(image);
+        using var image = _canvasBuilder.Create(options);
+        _contentWriter.WriteText(image, options);
+        _filterEngine.ApplyFilters(image, options);
         return await GeneratePng(image, cancellationToken);
     }
 
@@ -28,7 +28,8 @@ public class ImageGenerator : IImageGenerator
     {
         using MemoryStream memStream = new();
         await image.SaveAsPngAsync(memStream, cancellationToken);
-        return $"data:image/png;base64,{Convert.ToBase64String(memStream.GetBuffer())}";
+        // ToArray (not GetBuffer) so the unused tail of the stream buffer is not appended to the PNG.
+        return $"data:image/png;base64,{Convert.ToBase64String(memStream.ToArray())}";
     }
 }
 

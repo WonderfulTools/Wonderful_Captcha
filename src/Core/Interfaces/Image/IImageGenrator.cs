@@ -2,6 +2,6 @@
 
 public interface IImageGenerator
 {
-    public Task<string> GenerateImageAsync(CancellationToken cancellationToken = default!);
+    public Task<string> GenerateImageAsync(CaptchaOptions options, CancellationToken cancellationToken = default!);
 }
 

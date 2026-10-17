@@ -5,18 +5,14 @@ namespace WonderfulCaptcha.Images;
 
 public class FilterEngine : IFilterEngine
 {
-    private readonly CaptchaOptions _captchaOptions;
-    private static readonly Random Random = new();
+    // Random.Shared is thread-safe; a shared `new Random()` gets corrupted under concurrent use.
+    private static readonly Random Random = Random.Shared;
 
-    public FilterEngine(IOptions<CaptchaOptions> captchaOptions)
-        => _captchaOptions = captchaOptions.Value;
-
-
-    public void ApplyFilters(Image<Rgba32> image)
+    public void ApplyFilters(Image<Rgba32> image, CaptchaOptions options)
     {
-        AddLines(image);
-        AddSaltAndPepper(image);
-        AddOilPaint(image);
+        AddLines(image, options);
+        AddSaltAndPepper(image, options);
+        AddOilPaint(image, options);
         AddDefaults(image);
     }
 
@@ -24,32 +20,31 @@ public class FilterEngine : IFilterEngine
         image.Mutate(x => x.GaussianBlur(0.5f).Saturate(0.8f));
 
 
-    private void AddOilPaint(Image<Rgba32> image)
+    private static void AddOilPaint(Image<Rgba32> image, CaptchaOptions options)
     {
-        if (_captchaOptions.NoiseOptions.OilPaintLevel > 0)
-            image.Mutate(x => x.OilPaint(_captchaOptions.NoiseOptions.OilPaintLevel, 8));
+        if (options.NoiseOptions.OilPaintLevel > 0)
+            image.Mutate(x => x.OilPaint(options.NoiseOptions.OilPaintLevel, 8));
     }
 
-    private void AddSaltAndPepper(Image<Rgba32> image)
+    private static void AddSaltAndPepper(Image<Rgba32> image, CaptchaOptions options)
     {
-        var random = new Random();
         for (int x = 0; x < image.Width; x++)
             for (int y = 0; y < image.Height; y++)
-                if (random.NextDouble() < _captchaOptions.NoiseOptions.SaltAndPepperDensityPercent / 100)
-                    image[x, y] = random.Next(2) == 0 ? ColorUtils.GetColor(_captchaOptions.TextOptions.TextColor) : Color.White;
+                if (Random.NextDouble() < options.NoiseOptions.SaltAndPepperDensityPercent / 100)
+                    image[x, y] = Random.Next(2) == 0 ? ColorUtils.GetColor(options.TextOptions.TextColor) : Color.White;
     }
 
-    private void AddLines(Image<Rgba32> image)
+    private static void AddLines(Image<Rgba32> image, CaptchaOptions options)
     {
-        var color = _captchaOptions.TextOptions.TextColorHex is not null ?
-                    ColorUtils.GetColor(_captchaOptions.TextOptions.TextColorHex) :
-                    ColorUtils.GetColor(_captchaOptions.TextOptions.TextColor);
-        for (int i = 0; i < _captchaOptions.NoiseOptions.MaxLineNumbers; i++)
+        var color = options.TextOptions.TextColorHex is not null ?
+                    ColorUtils.GetColor(options.TextOptions.TextColorHex) :
+                    ColorUtils.GetColor(options.TextOptions.TextColor);
+        for (int i = 0; i < options.NoiseOptions.MaxLineNumbers; i++)
         {
             var brush = BrushUtils.GetBrush(BrushEnum.Solid, color);
             var pen = Pens.Solid(brush, Random.Next(1, 5));
-            var point = new PointF(Random.Next(0, _captchaOptions.ImageOptions.ImageSize.Width), Random.Next(_captchaOptions.ImageOptions.ImageSize.Height));
-            var point2 = new PointF(Random.Next(0, _captchaOptions.ImageOptions.ImageSize.Width), Random.Next(_captchaOptions.ImageOptions.ImageSize.Height));
+            var point = new PointF(Random.Next(0, options.ImageOptions.ImageSize.Width), Random.Next(options.ImageOptions.ImageSize.Height));
+            var point2 = new PointF(Random.Next(0, options.ImageOptions.ImageSize.Width), Random.Next(options.ImageOptions.ImageSize.Height));
             image.Mutate(s => s.DrawLine(pen, new PointF[] { point, point2 }));
         }
     }

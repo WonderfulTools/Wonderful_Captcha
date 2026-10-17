@@ -2,7 +2,7 @@ namespace WonderfulCaptcha.Images;
 
 public static class ColorUtils
 {
-    private static readonly Random Random = new();
+    private static readonly Random Random = Random.Shared;
     public static Color GetColor(ColorEnum color) =>
         color switch
         {

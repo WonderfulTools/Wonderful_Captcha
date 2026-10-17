@@ -1,7 +1,7 @@
 ﻿namespace WonderfulCaptcha.Text;
 public class SumOfTwoNumbersStrategy : ITextStrategy
 {
-    private static readonly Random random = new();
+    private static readonly Random random = Random.Shared;
     public TextProviderResultDto GetText(int len)
     {
         var numbers = new List<int> { random.Next(10, 20), random.Next(1, 9) };

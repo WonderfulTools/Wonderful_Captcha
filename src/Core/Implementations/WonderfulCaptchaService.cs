@@ -1,7 +1,7 @@
-﻿using WonderfulCaptcha.Cache;
+﻿using WonderfulCaptcha.Text;
+using WonderfulCaptcha.Cache;
 using WonderfulCaptcha.Crypto;
 using WonderfulCaptcha.Images;
-using WonderfulCaptcha.Text;
 
 namespace WonderfulCaptcha;
 
@@ -25,6 +25,8 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
         _cryptoProvider = cryptoProvider;
         _imageGenerator = imageGenerator;
     }
+
+    private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
 
     public async Task<CaptchaResult> GenerateAsync(Action<CaptchaOptions> options = default!, CancellationToken cancellationToken = default)
     {
@@ -52,7 +54,6 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             return false;
         _cacheProvider.RemoveAsync(cacheKey);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
-
     }
 
     public async Task<bool> VerifyAsync(string key, string value, CancellationToken cancellationToken = default)
@@ -63,9 +64,5 @@ public class WonderfulCaptchaService : IWonderfulCaptchaService
             return false;
         await _cacheProvider.RemoveAsync(cacheKey, cancellationToken);
         return _cryptoProvider.Decrypt(cachedValue).Equals(value, StringComparison.OrdinalIgnoreCase);
-        //
     }
-
-    private string GetCacheWithPrefix(string key) => $"{_options.CacheOptions.Prefix}_{key}";
 }
-
