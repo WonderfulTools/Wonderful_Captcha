@@ -16,4 +16,6 @@ public class NoiseOptions
     public double SaltAndPepperDensityPercent { set; get; } = 2;
     public int MaxLineNumbers { set; get; } = 3;
     public int OilPaintLevel { set; get; } = 0;
+
+    public NoiseOptions Clone() => (NoiseOptions)MemberwiseClone();
 }

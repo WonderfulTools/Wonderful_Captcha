@@ -4,7 +4,7 @@ namespace WonderfulCaptcha.Images;
 
 public static class TextTransformFilter
 {
-    private static readonly Random Random = new();
+    private static readonly Random Random = Random.Shared;
     public static Matrix3x2 ApplyTransforms(PointF position, CaptchaOptions options)
     {
         var transform =

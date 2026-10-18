@@ -6,4 +6,5 @@ public class CacheOptions
     public TimeSpan CacheExpirationTime { get; set; } = TimeSpan.FromMinutes(1);
     public string Prefix { get; set; } = "WonderfulCaptcha";
 
+    public CacheOptions Clone() => (CacheOptions)MemberwiseClone();
 }

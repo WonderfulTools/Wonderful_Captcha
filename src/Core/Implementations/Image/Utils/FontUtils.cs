@@ -5,7 +5,7 @@ namespace WonderfulCaptcha.Images;
 
 public class FontUtils
 {
-    private static readonly Random Random = new();
+    private static readonly Random Random = Random.Shared;
     private static readonly ConcurrentDictionary<FontEnum, FontFamily> FontFamilies = new();
 
     public static Font GetFont(FontEnum fontFamily, int fontSize, FontStyleEnum style)
