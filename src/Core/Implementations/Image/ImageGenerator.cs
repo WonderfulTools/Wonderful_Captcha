@@ -1,5 +1,3 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
-
 namespace WonderfulCaptcha.Images;
 
 public class ImageGenerator : IImageGenerator
@@ -16,20 +14,21 @@ public class ImageGenerator : IImageGenerator
         _filterEngine = filterEngine;
     }
 
-    public async Task<string> GenerateImageAsync(CaptchaOptions options, CancellationToken cancellationToken)
+    public Task<string> GenerateImageAsync(CaptchaOptions options, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         using var image = _canvasBuilder.Create(options);
         _contentWriter.WriteText(image, options);
         _filterEngine.ApplyFilters(image, options);
-        return await GeneratePng(image, cancellationToken);
+        return Task.FromResult(GeneratePng(image));
     }
 
-    private async Task<string> GeneratePng(Image<Rgba32> image, CancellationToken cancellationToken = default)
+    private static string GeneratePng(SKBitmap image)
     {
-        using MemoryStream memStream = new();
-        await image.SaveAsPngAsync(memStream, cancellationToken);
-        // ToArray (not GetBuffer) so the unused tail of the stream buffer is not appended to the PNG.
-        return $"data:image/png;base64,{Convert.ToBase64String(memStream.ToArray())}";
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100)
+            ?? throw new InvalidOperationException("Failed to encode captcha image as PNG.");
+        return $"data:image/png;base64,{Convert.ToBase64String(data.Span)}";
     }
 }
 

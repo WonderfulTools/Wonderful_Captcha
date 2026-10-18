@@ -56,8 +56,10 @@ SDK: .NET 10. There is **no test project** yet; verify behaviour changes with a 
 4. **Pipeline components are stateless.** `ICanvasBuilder`, `IContentWriter`, `IFilterEngine`, `IImageGenerator` receive `CaptchaOptions` per call. Keep them free of mutable fields.
 5. **Verification is one-shot:** `VerifyAsync` removes the key before comparing. A wrong answer burns the captcha; clients must request a new one.
 6. **Comparison is `OrdinalIgnoreCase`.** Text strategies must not emit characters that are only distinguishable by case or that look alike (`I l 1 O o 0`).
-7. **Fonts are embedded** (`LogicalName="WonderfulCaptcha.Fonts.<file>"`) so Alpine/containers work without OS fonts. Don't switch to `SystemFonts`.
-8. Changing a public interface in `src/Core/Interfaces` is a breaking change for consumers — bump the package `<Version>` accordingly and note it in the docs.
+7. **Fonts are embedded** (`LogicalName="WonderfulCaptcha.Fonts.<file>"`) and loaded with `SKTypeface.FromData`, so Alpine/containers work without OS fonts. Don't switch to `SKFontManager`/system fonts.
+8. **Rendering engine is SkiaSharp (MIT).** Do not reintroduce `SixLabors.*` packages (license key required in 4.x, known advisories in ≤ 4.1.1). Keep `SkiaSharp.NativeAssets.Linux.NoDependencies` at the same version as `SkiaSharp` — it provides the Linux/Alpine native binaries. Dispose every `SKFont`, `SKPaint`, `SKCanvas`, `SKImage`, `SKData` you create.
+9. **Layout conventions:** a text position is the top-left of a one-em line box; use `FontUtils.GetBaselineOffset` to convert to Skia's baseline and `FontUtils.MeasureSize` (glyph outline bounds) for sizes — this keeps image dimensions stable. See [docs/migrations/imagesharp-to-skiasharp.md](docs/migrations/imagesharp-to-skiasharp.md).
+10. Changing a public interface in `src/Core/Interfaces` is a breaking change for consumers — bump the package `<Version>` accordingly and note it in the docs.
 
 ## Conventions
 

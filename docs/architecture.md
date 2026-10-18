@@ -51,6 +51,14 @@ VerifyAsync(key, input)
 
 Before v-next the pipeline read `IOptions<CaptchaOptions>.Value` directly and `GenerateAsync` wrote `Text`/`Value` into it — see [bug-reports/verify-fails-randomly.md](bug-reports/verify-fails-randomly.md).
 
+## Rendering engine
+
+Images are rendered with **SkiaSharp** (MIT). It replaced SixLabors.ImageSharp / ImageSharp.Drawing in v-next — see [migrations/imagesharp-to-skiasharp.md](migrations/imagesharp-to-skiasharp.md).
+
+- Native binaries: Windows/macOS come with the `SkiaSharp` package; Linux (glibc **and** Alpine/musl) comes from `SkiaSharp.NativeAssets.Linux.NoDependencies`, which has no fontconfig/freetype system dependency.
+- Text layout keeps the previous conventions: a draw position is the top-left of a one-em line box, the baseline is placed using the font's `hhea` ascender/descender (`FontUtils.GetBaselineOffset`), and character size is measured from the exact glyph outline (`FontUtils.MeasureSize`). This keeps image sizes identical to the ImageSharp era.
+- Filters: lines (`DrawLine`), salt & pepper (`SetPixel`), oil paint (managed mode filter in `FilterEngine`), then blur σ=0.5 + saturation 0.8 via Skia image/colour filters.
+
 ## Packaging
 
-`GeneratePackageOnBuild=True` on Core, Cache.InMemory and Cache.Redis: every build writes `.nupkg` files to `bin/<Configuration>/`. Fonts are embedded with `LogicalName="WonderfulCaptcha.Fonts.<file>"`, so no OS fonts are needed (Alpine-safe).
+`GeneratePackageOnBuild=True` on Core, Cache.InMemory and Cache.Redis: every build writes `.nupkg` files to `bin/<Configuration>/`. Fonts are embedded with `LogicalName="WonderfulCaptcha.Fonts.<file>"` and loaded with `SKTypeface.FromData`, so no OS fonts are needed (Alpine-safe).

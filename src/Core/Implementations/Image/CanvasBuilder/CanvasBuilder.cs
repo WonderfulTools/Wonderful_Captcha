@@ -1,16 +1,17 @@
-using SixLabors.ImageSharp.PixelFormats;
-
 namespace WonderfulCaptcha.Images;
 
 public class CanvasBuilder : ICanvasBuilder
 {
-    public Image<Rgba32> Create(CaptchaOptions options)
+    public SKBitmap Create(CaptchaOptions options)
     {
         options.ImageOptions.ImageSize = GetSize(options);
         var backgroundColor = options.ImageOptions.ImageBackgroundColorHex is not null ?
                                 ColorUtils.GetColor(options.ImageOptions.ImageBackgroundColorHex) :
                                 ColorUtils.GetColor(options.ImageOptions.ImageBackgroundColor);
-        Image<Rgba32> image = new(options.ImageOptions.ImageSize.Width, options.ImageOptions.ImageSize.Height, backgroundColor);
+
+        var image = new SKBitmap(new SKImageInfo(options.ImageOptions.ImageSize.Width, options.ImageOptions.ImageSize.Height,
+                                                 SKColorType.Rgba8888, SKAlphaType.Premul));
+        image.Erase(backgroundColor);
         return image;
     }
 

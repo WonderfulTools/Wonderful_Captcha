@@ -10,5 +10,6 @@
 | [extending.md](extending.md) | Custom cache provider, crypto, text strategy, image pipeline |
 | [troubleshooting.md](troubleshooting.md) | Common problems and the known-issues backlog |
 | [bug-reports/verify-fails-randomly.md](bug-reports/verify-fails-randomly.md) | Root-cause analysis of "a correct code is rejected until the 7th–8th try" |
+| [migrations/imagesharp-to-skiasharp.md](migrations/imagesharp-to-skiasharp.md) | Why and how the renderer moved from ImageSharp to SkiaSharp, API changes, verification |
 
 For AI agents and contributors, see [../Agent.md](../Agent.md).
