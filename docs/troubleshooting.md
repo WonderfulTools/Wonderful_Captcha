@@ -22,6 +22,14 @@ Call one of `UseInMemoryCacheProvider()`, `UseRedisCacheProvider()`, `UseEasyCac
 
 The package was built without the `EmbeddedResource` entry in `Core.csproj`. Use ≥ 10.3.0.
 
+## `DllNotFoundException: libSkiaSharp` / `TypeInitializationException` in SkiaSharp
+
+The native Skia library for the current OS/architecture was not deployed.
+
+- Linux (glibc and Alpine/musl, x64/arm64/arm): provided by `SkiaSharp.NativeAssets.Linux.NoDependencies`, which Core references — make sure a trimmed/`--no-dependencies` publish did not drop it, and that the `runtimes/<rid>/native` folder exists in the output.
+- Windows/macOS: provided by `SkiaSharp` itself.
+- Self-contained publish: publish with the correct `-r <rid>` (e.g. `linux-musl-x64` for Alpine).
+
 ## Unable to resolve `IMemoryCache` / `IDistributedCache`
 
 Add `builder.Services.AddMemoryCache()` or `AddStackExchangeRedisCache(...)` before building the app.
@@ -30,7 +38,6 @@ Add `builder.Services.AddMemoryCache()` or `AddStackExchangeRedisCache(...)` bef
 
 | Area | Issue |
 |---|---|
-| Security | `SixLabors.ImageSharp` 3.1.12 has published high-severity advisories (NU1903 at build). Upgrade to the latest 3.1.x patch. |
 | Security | `SHA256CryptoEngine` uses a hard-coded key and a zero IV (deterministic ciphertext). Low impact since the value never leaves the server, but the key should be configurable. The class name is misleading (it is AES). |
 | API | `Verify` (sync) blocks on async calls (`.Result`). Prefer `VerifyAsync`. |
 | API | `NoiseOptions(double, int, int)` constructor ignores `MaxLineNumbers` and `OilPaintLevel` parameters. |

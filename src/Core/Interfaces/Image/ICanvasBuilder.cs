@@ -1,11 +1,9 @@
-using SixLabors.ImageSharp.PixelFormats;
-
 namespace WonderfulCaptcha.Images;
 
 /// <summary>
-/// 
+/// Creates the blank captcha bitmap (size + background) for one captcha.
 /// </summary>
 public interface ICanvasBuilder
 {
-    Image<Rgba32> Create(CaptchaOptions options);
+    SKBitmap Create(CaptchaOptions options);
 }

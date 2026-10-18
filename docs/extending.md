@@ -56,12 +56,18 @@ Use characters that are unambiguous when distorted and remember comparison is ca
 
 ## Custom image pipeline (breaking change in v-next)
 
-`ICanvasBuilder.Create`, `IContentWriter.WriteText`, `IFilterEngine.ApplyFilters` and `IImageGenerator.GenerateImageAsync` now take the per-call `CaptchaOptions` as a parameter. Implementations must read options **only** from that parameter — never from `IOptions<CaptchaOptions>` — and keep no per-call state in fields.
+`ICanvasBuilder.Create`, `IContentWriter.WriteText`, `IFilterEngine.ApplyFilters` and `IImageGenerator.GenerateImageAsync` take the per-call `CaptchaOptions` as a parameter. Implementations must read options **only** from that parameter — never from `IOptions<CaptchaOptions>` — and keep no per-call state in fields.
+
+The image type is SkiaSharp's `SKBitmap` (RGBA8888, premultiplied). Draw on it with `using var canvas = new SKCanvas(image);`.
 
 ```csharp
+using SkiaSharp;
+
 public class NoNoiseFilterEngine : IFilterEngine
 {
-    public void ApplyFilters(Image<Rgba32> image, CaptchaOptions options) { /* nothing */ }
+    public void ApplyFilters(SKBitmap image, CaptchaOptions options) { /* nothing */ }
 }
 builder.Services.AddScoped<IFilterEngine, NoNoiseFilterEngine>();
 ```
+
+Helpers in `WonderfulCaptcha.Images` you can reuse: `FontUtils.GetFont(...)` (returns an `SKFont` you must dispose), `FontUtils.MeasureSize`, `FontUtils.GetBaselineOffset`, `ColorUtils.GetColor(...)` (returns `SKColor`), `BrushUtils.GetBrush(...)` (returns an `SKPaint` you must dispose).
